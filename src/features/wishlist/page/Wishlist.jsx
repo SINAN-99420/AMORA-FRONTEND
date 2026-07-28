@@ -1,0 +1,163 @@
+import { useState } from "react";
+import "../styles/Wishlist.css";
+import { FiX } from "react-icons/fi";
+import WishlistQuery from "../queries/WishlistQuery";
+import { Wishlist_delete } from "../api/Wishlisht_Api";
+import { Link, useNavigate } from "react-router-dom";
+import { AiOutlineDoubleRight } from "react-icons/ai";
+import showToast from "../../../utils/toast";
+
+const recommended = [
+    {
+        id: 1,
+        image:
+            "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600",
+        name: "Silk Scarf",
+        price: "₹699",
+    },
+    {
+        id: 2,
+        image:
+            "https://images.unsplash.com/photo-1617038220319-276d3cfab638?w=600",
+        name: "Pearl Earrings",
+        price: "₹799",
+    },
+    {
+        id: 3,
+        image:
+            "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600",
+        name: "Scented Candle",
+        price: "₹599",
+    },
+];
+
+export default function Wishlist() {
+
+    const navigate = useNavigate()
+
+
+    const { data = [], isLoading, error, refetch } = WishlistQuery()
+
+    const removeWishlist = async (id) => {
+
+        try {
+            await Wishlist_delete(id);
+
+            // refresh wishlist data
+            refetch();
+
+            showToast.success("Product removed in wishlist ")
+
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+
+    return (
+        <div className="wishlist-page">
+            <div className="toshop">
+                <Link to='/shop'>Shop</Link>
+                <AiOutlineDoubleRight />
+            </div>
+
+            <div className="wishlist-header">
+
+                <div>
+                    <h1>My Wishlist</h1>
+                    <p>A curated collection of your most desired pieces.</p>
+                </div>
+
+
+            </div>
+
+
+            <div className={`wishlist-grid ${data.length <= 3 ? "few-products" : "many-products"}`}>
+
+                {data?.map((item) => (
+                    <div className="wishlist-card" key={item.id} >
+
+                        <button
+                            className="remove-btn"
+                            onClick={() => removeWishlist(item.id)}
+                        >
+                            <FiX />
+                        </button>
+
+                        <img
+                            src={`http://127.0.0.1:8000${item.product_image}`}
+                            alt={item.product_name}
+                        />
+
+                        {
+                            item.has_offer && (
+
+                                <span className="wishlist-offer-badge">
+
+                                    {item.discount_percentage}% OFF
+
+                                </span>
+
+                            )
+                        }
+
+                        <div className="wishlist-info">
+
+                            <div className="pro-category_wishlist">
+                                <span>{item.category}</span>
+                            </div>
+
+                            <h3>{item.product_name}</h3>
+
+                            <div className="price">
+
+                                {
+
+                                    item.has_offer ? (
+
+                                        <div className="wishlist-price-box">
+
+                                            <span className="wishlist-old-price">
+
+                                                NZD $
+                                                {Number(item.starting_price).toFixed(2)}
+
+                                            </span>
+
+                                            <span className="wishlist-new-price">
+
+                                                NZD $
+                                                {Number(item.discounted_price).toFixed(2)}
+
+                                            </span>
+
+                                        </div>
+
+                                    ) : (
+
+                                        <span className="wishlist-new-price">
+
+                                            NZD $
+                                            {Number(item.starting_price).toFixed(2)}
+
+                                        </span>
+
+                                    )
+
+                                }
+
+                            </div>
+
+                            <button onClick={(e) => { navigate(`/single/${item.product}`) }}>View More</button>
+
+                        </div>
+
+                    </div>
+                ))}
+            </div>
+
+
+
+        </div>
+    );
+}

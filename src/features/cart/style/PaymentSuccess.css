@@ -1,0 +1,27 @@
+.payment-success-page{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#f8f8f8;
+    font-family:"Poppins",sans-serif;
+}
+
+.payment-success-card{
+    width:450px;
+    background:#fff;
+    padding:40px;
+    border-radius:12px;
+    text-align:center;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+}
+
+.payment-success-card h2{
+    margin-bottom:20px;
+    color:#2e7d32;
+}
+
+.payment-success-card p{
+    color:#555;
+    margin:10px 0;
+}

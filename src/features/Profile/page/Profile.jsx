@@ -364,6 +364,7 @@ const Profile = () => {
                   name="first_name"
                   value={profile.first_name}
                   onChange={handleProfileChange}
+                  required
                 />
 
               </div>
@@ -398,6 +399,7 @@ const Profile = () => {
                   name="phone"
                   value={profile.phone}
                   onChange={handleProfileChange}
+                  required
                 />
 
               </div>
@@ -414,6 +416,7 @@ const Profile = () => {
                   name="gender"
                   value={profile.gender}
                   onChange={handleProfileChange}
+                  required
                 >
 
                   <option value="">
@@ -457,6 +460,7 @@ const Profile = () => {
                   name="date_of_birth"
                   value={profile.date_of_birth}
                   onChange={handleProfileChange}
+                  required
                 />
 
               </div>
@@ -794,6 +798,7 @@ const Profile = () => {
                     placeholder="Full Name"
                     value={addressData.full_name}
                     onChange={handleAddressChange}
+                    required
                   />
 
                   <input
@@ -802,6 +807,7 @@ const Profile = () => {
                     placeholder="Phone Number"
                     value={addressData.phone}
                     onChange={handleAddressChange}
+                    required
                   />
 
                   <input
@@ -810,6 +816,7 @@ const Profile = () => {
                     placeholder="City"
                     value={addressData.city}
                     onChange={handleAddressChange}
+                    required
                   />
 
                   
@@ -820,6 +827,7 @@ const Profile = () => {
                     placeholder="Postal Code"
                     value={addressData.postal_code}
                     onChange={handleAddressChange}
+                    required
                   />
 
                   <input
@@ -828,6 +836,7 @@ const Profile = () => {
                     placeholder="Country"
                     value={addressData.country}
                     onChange={handleAddressChange}
+                    required
                   />
 
                 </div>
@@ -837,6 +846,7 @@ const Profile = () => {
                   placeholder="Street Address"
                   value={addressData.address_line}
                   onChange={handleAddressChange}
+                  required
                 />
 
                 <label className="default-check">
@@ -846,6 +856,7 @@ const Profile = () => {
                     name="is_default"
                     checked={addressData.is_default}
                     onChange={handleAddressChange}
+                    required
                   />
 
                   Set as Default Address

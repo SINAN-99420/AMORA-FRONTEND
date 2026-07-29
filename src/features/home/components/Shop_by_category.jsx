@@ -8,7 +8,7 @@ import specialOffer from '../../../assets/specialOffer-image.jpg'
 import { useNavigate } from "react-router-dom";
 import Offer_Query from "../../../hooks/offers/queries/Offer_Query";
 import { RiArrowUpWideLine } from "react-icons/ri";
-
+import { getImageUrl } from "../../../utils/imageUrl";
 function Shop_by_category() {
 
     const { data: categories = [], isLoading } = ShopBy_categoryQuery();
@@ -235,7 +235,7 @@ function Shop_by_category() {
                                 <img src={item.type === "offer" ?
                                     item.image
                                     :
-                                    `http://localhost:8000${item.image}`
+                                    getImageUrl(item.image)
                                 }
 
                                     alt={item.name}
@@ -301,7 +301,7 @@ function Shop_by_category() {
                                     >
 
                                         <div className="image-circle">
-                                            <img src={`http://localhost:8000${item.image}`} alt={item.name} />
+                                            <img src={getImageUrl(item.image)} alt={item.name} />
                                         </div>
 
                                         <p>

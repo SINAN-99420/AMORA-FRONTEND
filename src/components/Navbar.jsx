@@ -10,12 +10,12 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import { AiOutlineDoubleRight } from "react-icons/ai";
 import { IoClose } from "react-icons/io5";
 
-import amora from './../../public/AmoraLogo.jpeg';
+import amora from '../assets/AmoraLogo.jpeg'
 import WishlistQuery from "../features/wishlist/queries/WishlistQuery.jsx";
 import Offer_Query from "../hooks/offers/queries/Offer_Query.jsx";
 import Cart_query from "../features/cart/queries/Cart_query.jsx";
 import ShopBy_categoryQuery from "../features/shop_by_category/queries/ShopBy_categoryQuery.jsx";
-
+import { getImageUrl } from "../utils/imageUrl.js";
 function Navbar() {
 
     const { data = [], isLoading } = ShopBy_categoryQuery();
@@ -176,7 +176,7 @@ const cartLength = cart.total_items ?? 0;
                                                     {data.length > 0 && (
                                                         <div className="mega_image">
                                                             <img
-                                                                src={`http://localhost:8000${activeCategory?.image}`}
+                                                                src={getImageUrl(activeCategory?.image)}
                                                                 alt={activeCategory?.name}
                                                             />
                                                         </div>

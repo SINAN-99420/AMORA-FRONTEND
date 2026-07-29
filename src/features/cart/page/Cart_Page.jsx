@@ -5,6 +5,7 @@ import Cart_query from "../queries/Cart_query";
 import { RemoveCart, saveQuantity } from "../api/Cart_api";
 import { Link, useNavigate } from "react-router-dom";
 import showToast from "../../../utils/toast";
+import { getImageUrl } from "../../../utils/imageUrl";
 
 function Cart_page() {
 
@@ -252,7 +253,7 @@ function Cart_page() {
 
                                         <img
 
-                                            src={`http://127.0.0.1:8000${cart.image}`}
+                                            src={getImageUrl(cart.image)}
 
                                             alt={cart.name}
 

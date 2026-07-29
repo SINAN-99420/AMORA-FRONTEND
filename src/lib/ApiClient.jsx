@@ -1,7 +1,9 @@
 import axios from "axios";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const client = axios.create({
-    baseURL: "http://127.0.0.1:8000/",
+    baseURL: `${API_URL}/`,
 });
 
 client.interceptors.request.use((config) => {
@@ -32,7 +34,7 @@ client.interceptors.response.use(
             try {
 
                 const response = await axios.post(
-                    "http://127.0.0.1:8000/token/refresh/",
+                    `${API_URL}/token/refresh/`,
                     {
                         refresh: localStorage.getItem("refresh"),
                     }

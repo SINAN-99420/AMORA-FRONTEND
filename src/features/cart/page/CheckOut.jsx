@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import client from "../../../lib/ApiClient";
 import "../style/Checkout.css";
+import { getImageUrl } from "../../../utils/imageUrl";
 
 const Checkout = () => {
 
@@ -325,7 +326,7 @@ const Checkout = () => {
                                         <div className="amora-summary-image">
 
                                             <img
-                                                src={`http://127.0.0.1:8000${item.product_image}`}
+                                                src={getImageUrl(item.product_image)}
                                                 alt={item.product_name}
                                             />
 

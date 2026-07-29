@@ -6,30 +6,10 @@ import { Wishlist_delete } from "../api/Wishlisht_Api";
 import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineDoubleRight } from "react-icons/ai";
 import showToast from "../../../utils/toast";
+import { getImageUrl } from "../../../utils/imageUrl";
 
-const recommended = [
-    {
-        id: 1,
-        image:
-            "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600",
-        name: "Silk Scarf",
-        price: "₹699",
-    },
-    {
-        id: 2,
-        image:
-            "https://images.unsplash.com/photo-1617038220319-276d3cfab638?w=600",
-        name: "Pearl Earrings",
-        price: "₹799",
-    },
-    {
-        id: 3,
-        image:
-            "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600",
-        name: "Scented Candle",
-        price: "₹599",
-    },
-];
+
+
 
 export default function Wishlist() {
 
@@ -85,7 +65,7 @@ export default function Wishlist() {
                         </button>
 
                         <img
-                            src={`http://127.0.0.1:8000${item.product_image}`}
+                            src={getImageUrl(item.product_image)}
                             alt={item.product_name}
                         />
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import client from "../../../lib/ApiClient";
 import "../styles/Invoice.css";
+import { getImageUrl } from "../../../utils/imageUrl";
 
 const Invoice = () => {
 
@@ -268,7 +269,7 @@ const Invoice = () => {
                                         <div className="invoice-product-info">
 
                                             <img
-                                                src={`http://127.0.0.1:8000${item.product_image}`}
+                                                src={getImageUrl(item.product_image)}
                                                 alt={item.product_name}
                                             />
 

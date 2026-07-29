@@ -2,6 +2,7 @@ import React from "react";
 import "../styles/New_Arrival_Home.css";
 import Newarrival_Query from "../../newArrivals/queries/Newarrival_Query";
 import { Link, useNavigate } from "react-router-dom";
+import { getImageUrl } from "../../../utils/imageUrl";
 
 const New_Arrival_Home = ({ products = [] }) => {
 
@@ -113,7 +114,7 @@ const New_Arrival_Home = ({ products = [] }) => {
                                             >
 
                                                 <img
-                                                    src={`http://localhost:8000${item.variants[0]?.images[0]?.image}`}
+                                                    src={getImageUrl(item.variants[0]?.images[0]?.image)}
                                                     alt={item.name}
                                                     className="product-img"
                                                 />

@@ -9,6 +9,7 @@ import { addToCart_Post } from "../api/AddToCart_Api";
 import WishlistQuery from "../../wishlist/queries/WishlistQuery";
 import { Wishlist_post } from "../../wishlist/api/Wishlisht_Api";
 import showToast from "../../../utils/toast";
+import { getImageUrl } from "../../../utils/imageUrl";
 
 function Single_product() {
 
@@ -388,7 +389,7 @@ function Single_product() {
 
                                 key={img.id}
 
-                                src={`http://127.0.0.1:8000${img.image}`}
+                                src={getImageUrl(img.image)}
 
                                 alt={data.name}
 
@@ -426,13 +427,13 @@ function Single_product() {
 
                                 activeImage
 
-                                    ? `http://127.0.0.1:8000${activeImage}`
+                                    ? getImageUrl(activeImage)
 
-                                    : `http://127.0.0.1:8000${selectedVariant?.images?.find(
+                                    : getImageUrl(selectedVariant?.images?.find(
 
                                         img => img.is_primary
 
-                                    )?.image}`
+                                    )?.image)
 
                             }
 

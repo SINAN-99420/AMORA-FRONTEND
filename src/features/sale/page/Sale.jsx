@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import '../styles/Sale_page.css'
 import Product_card from '../components/Product_card'
-import Product_filter from '../components/Product_filter'
 import Product_Query from '../queries/Product_Query'
 import { Link, NavLink, useSearchParams,useNavigate } from "react-router-dom"
 import ShopBy_categoryQuery from '../../shop_by_category/queries/ShopBy_categoryQuery'
-
+import { getImageUrl } from '../../../utils/imageUrl'
 
 function Sale() {
 
@@ -149,7 +148,7 @@ function Sale() {
                         <div className="shop_category_preview">
                             {selectedCategory?.image && (
                                 <img
-                                    src={`http://localhost:8000${selectedCategory.image}`}
+                                    src={getImageUrl(selectedCategory.image)}
                                     alt={selectedCategory.name}
                                 />
                             )}

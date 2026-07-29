@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import client from "../../../lib/ApiClient";
 import "../styles/Myorders.css";
+import { getImageUrl } from "../../../utils/imageUrl";
 
 const MyOrders = () => {
 
@@ -235,7 +236,7 @@ const MyOrders = () => {
                              <img
                                 src={
                                     order.items?.[0]?.product_image
-                                        ? `http://127.0.0.1:8000${order.items[0].product_image}`
+                                        ? getImageUrl(order.items[0].product_image)
                                         : "/images/no-image.png"
                                 }
                                 alt={order.items?.[0]?.product_name}

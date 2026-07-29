@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../styles/Dashboard.css";
 import client from "../../../lib/ApiClient";
 import { useNavigate } from "react-router-dom";
+import { getImageUrl } from "../../../utils/imageUrl";
 
 export default function OrderDashboard() {
 
@@ -160,14 +161,12 @@ export default function OrderDashboard() {
         activeTab
 
     ]);
-        const handleExport = () => {
+    const API_URL = import.meta.env.VITE_API_URL;
+    const handleExport = () => {
 
         window.open(
-
-            "http://127.0.0.1:8000/export-orders-csv/",
-
+            `${API_URL}/export-orders-csv/`,
             "_blank"
-
         );
 
     };
@@ -326,7 +325,7 @@ export default function OrderDashboard() {
                             Paid Orders
 
                         </span>
-    
+
                     </div>
 
                 </section>
@@ -334,328 +333,328 @@ export default function OrderDashboard() {
                 <section className="orders-box">
 
                     <div className="tabs">
-                                            <div className="tabs">
-
-                        {
-
-                            [
-
-                                "All Orders",
-
-                                "Pending",
-
-                                "Processing",
-
-                                "Shipped",
-
-                                "Delivered",
-
-                                "Cancelled"
-
-                            ].map((tab) => (
-
-                                <button
-                                    key={tab}
-                                    className={
-                                        activeTab === tab
-                                            ? "tab-active"
-                                            : ""
-                                    }
-                                    onClick={() =>
-                                        setActiveTab(tab)
-                                    }
-                                >
-
-                                    {tab}
-
-                                </button>
-
-                            ))
-
-                        }
-
-                        <input
-                            type="text"
-                            className="order-search"
-                            placeholder="Search Order ID / Customer"
-                            value={search}
-                            onChange={(e) =>
-                                setSearch(e.target.value)
-                            }
-                        />
-
-                        <select
-                            value={sort}
-                            onChange={handleSort}
-                        >
-
-                            <option value="newest">
-
-                                Newest
-
-                            </option>
-
-                            <option value="oldest">
-
-                                Oldest
-
-                            </option>
-
-                            <option value="high_amount">
-
-                                Highest Amount
-
-                            </option>
-
-                            <option value="low_amount">
-
-                                Lowest Amount
-
-                            </option>
-
-                        </select>
-
-                    </div>
-
-                    <table>
-
-                        <thead>
-
-                            <tr>
-
-                                <th>ORDER ID</th>
-
-                                <th>CUSTOMER</th>
-
-                                <th>DATE</th>
-
-                                <th>AMOUNT</th>
-
-                                <th>STATUS</th>
-
-                                <th>ACTION</th>
-
-                            </tr>
-
-                        </thead>
-
-                        <tbody>
+                        <div className="tabs">
 
                             {
 
-                                loading
+                                [
 
-                                ?
+                                    "All Orders",
 
-                                (
+                                    "Pending",
 
-                                    <tr>
+                                    "Processing",
 
-                                        <td
-                                            colSpan="6"
-                                            style={{
-                                                textAlign:"center",
-                                                padding:"40px"
-                                            }}
-                                        >
+                                    "Shipped",
 
-                                            Loading...
+                                    "Delivered",
 
-                                        </td>
+                                    "Cancelled"
 
-                                    </tr>
+                                ].map((tab) => (
 
-                                )
-
-                                :
-
-                                orders.length===0
-
-                                ?
-
-                                (
-
-                                    <tr>
-
-                                        <td
-                                            colSpan="6"
-                                            style={{
-                                                textAlign:"center",
-                                                padding:"40px"
-                                            }}
-                                        >
-
-                                            No Orders Found
-
-                                        </td>
-
-                                    </tr>
-
-                                )
-
-                                :
-
-                                orders.map((order)=>(
-
-                                    <tr
-                                        key={order.id}
+                                    <button
+                                        key={tab}
+                                        className={
+                                            activeTab === tab
+                                                ? "tab-active"
+                                                : ""
+                                        }
+                                        onClick={() =>
+                                            setActiveTab(tab)
+                                        }
                                     >
 
-                                        <td>
+                                        {tab}
 
-                                            <strong>
-
-                                                {`ORD-${String(order.id).padStart(3, "0")}`}
-
-                                            </strong>
-
-                                        </td>
-
-                                        <td className="customer">
-
-                                            <div>
-
-                                                {
-
-                                                    order.customer_name
-                                                        ?.charAt(0)
-                                                        ?.toUpperCase()
-
-                                                }
-
-                                            </div>
-
-                                            <section>
-
-                                                {
-
-                                                    order.customer_name
-
-                                                }
-
-                                                <small>
-
-                                                    {
-
-                                                        order.customer_email
-
-                                                    }
-
-                                                </small>
-
-                                            </section>
-
-                                        </td>
-
-                                        <td>
-
-                                            {
-
-                                                new Date(
-
-                                                    order.created_at
-
-                                                ).toLocaleDateString()
-
-                                            }
-
-                                        </td>
-
-                                        <td>
-
-                                            <strong>
-
-                                                NZ$
-
-                                                {
-
-                                                    order.total_amount
-
-                                                }
-
-                                            </strong>
-
-                                        </td>
-
-                                        <td>
-
-                                            <span
-                                                className={`status ${order.status}`}
-                                            >
-
-                                                {order.status}
-
-                                            </span>
-
-                                        </td>
-
-                                        <td>
-
-                                            <button
-                                                className="admin-view-btn"
-                                                onClick={() =>
-                                                    handleOrderAction(
-                                                        order.id
-                                                    )
-                                                }
-                                            >
-
-                                                👁
-
-                                            </button>
-
-                                        </td>
-
-                                    </tr>
+                                    </button>
 
                                 ))
 
                             }
 
-                        </tbody>
-
-                    </table>
-                                        <div className="pagination">
-
-                        <span>
-
-                            Total Orders : {orders.length}
-
-                        </span>
-
-                        <div>
-
-                            <button
-                                onClick={() =>
-                                    changePage("prev")
+                            <input
+                                type="text"
+                                className="order-search"
+                                placeholder="Search Order ID / Customer"
+                                value={search}
+                                onChange={(e) =>
+                                    setSearch(e.target.value)
                                 }
+                            />
+
+                            <select
+                                value={sort}
+                                onChange={handleSort}
                             >
 
-                                ‹
+                                <option value="newest">
 
-                            </button>
+                                    Newest
 
-                            <button
-                                className="page-active"
-                            >
+                                </option>
 
-                                1
+                                <option value="oldest">
 
-                            </button>
+                                    Oldest
 
-                            <button
-                                onClick={() =>
-                                    changePage("next")
-                                }
-                            >
+                                </option>
 
-                                ›
+                                <option value="high_amount">
 
-                            </button>
+                                    Highest Amount
+
+                                </option>
+
+                                <option value="low_amount">
+
+                                    Lowest Amount
+
+                                </option>
+
+                            </select>
 
                         </div>
 
-                    </div>
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>ORDER ID</th>
+
+                                    <th>CUSTOMER</th>
+
+                                    <th>DATE</th>
+
+                                    <th>AMOUNT</th>
+
+                                    <th>STATUS</th>
+
+                                    <th>ACTION</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {
+
+                                    loading
+
+                                        ?
+
+                                        (
+
+                                            <tr>
+
+                                                <td
+                                                    colSpan="6"
+                                                    style={{
+                                                        textAlign: "center",
+                                                        padding: "40px"
+                                                    }}
+                                                >
+
+                                                    Loading...
+
+                                                </td>
+
+                                            </tr>
+
+                                        )
+
+                                        :
+
+                                        orders.length === 0
+
+                                            ?
+
+                                            (
+
+                                                <tr>
+
+                                                    <td
+                                                        colSpan="6"
+                                                        style={{
+                                                            textAlign: "center",
+                                                            padding: "40px"
+                                                        }}
+                                                    >
+
+                                                        No Orders Found
+
+                                                    </td>
+
+                                                </tr>
+
+                                            )
+
+                                            :
+
+                                            orders.map((order) => (
+
+                                                <tr
+                                                    key={order.id}
+                                                >
+
+                                                    <td>
+
+                                                        <strong>
+
+                                                            {`ORD-${String(order.id).padStart(3, "0")}`}
+
+                                                        </strong>
+
+                                                    </td>
+
+                                                    <td className="customer">
+
+                                                        <div>
+
+                                                            {
+
+                                                                order.customer_name
+                                                                    ?.charAt(0)
+                                                                    ?.toUpperCase()
+
+                                                            }
+
+                                                        </div>
+
+                                                        <section>
+
+                                                            {
+
+                                                                order.customer_name
+
+                                                            }
+
+                                                            <small>
+
+                                                                {
+
+                                                                    order.customer_email
+
+                                                                }
+
+                                                            </small>
+
+                                                        </section>
+
+                                                    </td>
+
+                                                    <td>
+
+                                                        {
+
+                                                            new Date(
+
+                                                                order.created_at
+
+                                                            ).toLocaleDateString()
+
+                                                        }
+
+                                                    </td>
+
+                                                    <td>
+
+                                                        <strong>
+
+                                                            NZ$
+
+                                                            {
+
+                                                                order.total_amount
+
+                                                            }
+
+                                                        </strong>
+
+                                                    </td>
+
+                                                    <td>
+
+                                                        <span
+                                                            className={`status ${order.status}`}
+                                                        >
+
+                                                            {order.status}
+
+                                                        </span>
+
+                                                    </td>
+
+                                                    <td>
+
+                                                        <button
+                                                            className="admin-view-btn"
+                                                            onClick={() =>
+                                                                handleOrderAction(
+                                                                    order.id
+                                                                )
+                                                            }
+                                                        >
+
+                                                            👁
+
+                                                        </button>
+
+                                                    </td>
+
+                                                </tr>
+
+                                            ))
+
+                                }
+
+                            </tbody>
+
+                        </table>
+                        <div className="pagination">
+
+                            <span>
+
+                                Total Orders : {orders.length}
+
+                            </span>
+
+                            <div>
+
+                                <button
+                                    onClick={() =>
+                                        changePage("prev")
+                                    }
+                                >
+
+                                    ‹
+
+                                </button>
+
+                                <button
+                                    className="page-active"
+                                >
+
+                                    1
+
+                                </button>
+
+                                <button
+                                    onClick={() =>
+                                        changePage("next")
+                                    }
+                                >
+
+                                    ›
+
+                                </button>
+
+                            </div>
+
+                        </div>
                     </div>
 
                 </section>
@@ -712,81 +711,81 @@ export default function OrderDashboard() {
 
                                 lowStock.length === 0
 
-                                ?
+                                    ?
 
-                                (
+                                    (
 
-                                    <tr>
+                                        <tr>
 
-                                        <td
-                                            colSpan="4"
-                                            style={{
-                                                textAlign:"center",
-                                                padding:"35px"
-                                            }}
-                                        >
-
-                                            No Low Stock Products
-
-                                        </td>
-
-                                    </tr>
-
-                                )
-
-                                :
-
-                                lowStock.map((item)=>(
-
-                                    <tr
-                                        key={item.id}
-                                    >
-
-                                        <td>
-
-                                            {
-
-                                                item.product_name
-
-                                            }
-
-                                        </td>
-
-                                        <td>
-
-                                            {
-
-                                                item.size
-
-                                            }
-
-                                        </td>
-
-                                        <td>
-
-                                            {
-
-                                                item.stock
-
-                                            }
-
-                                        </td>
-
-                                        <td>
-
-                                            <span
-                                                className="stock-low"
+                                            <td
+                                                colSpan="4"
+                                                style={{
+                                                    textAlign: "center",
+                                                    padding: "35px"
+                                                }}
                                             >
 
-                                                Low Stock
+                                                No Low Stock Products
 
-                                            </span>
+                                            </td>
 
-                                        </td>
+                                        </tr>
 
-                                    </tr>
+                                    )
 
-                                ))
+                                    :
+
+                                    lowStock.map((item) => (
+
+                                        <tr
+                                            key={item.id}
+                                        >
+
+                                            <td>
+
+                                                {
+
+                                                    item.product_name
+
+                                                }
+
+                                            </td>
+
+                                            <td>
+
+                                                {
+
+                                                    item.size
+
+                                                }
+
+                                            </td>
+
+                                            <td>
+
+                                                {
+
+                                                    item.stock
+
+                                                }
+
+                                            </td>
+
+                                            <td>
+
+                                                <span
+                                                    className="stock-low"
+                                                >
+
+                                                    Low Stock
+
+                                                </span>
+
+                                            </td>
+
+                                        </tr>
+
+                                    ))
 
                             }
 
@@ -848,87 +847,87 @@ export default function OrderDashboard() {
 
                                 wishlistProducts.length === 0
 
-                                ?
+                                    ?
 
-                                (
+                                    (
 
-                                    <tr>
+                                        <tr>
 
-                                        <td
-                                            colSpan="4"
-                                            style={{
-                                                textAlign:"center",
-                                                padding:"35px"
-                                            }}
+                                            <td
+                                                colSpan="4"
+                                                style={{
+                                                    textAlign: "center",
+                                                    padding: "35px"
+                                                }}
+                                            >
+
+                                                No Wishlist Products
+
+                                            </td>
+
+                                        </tr>
+
+                                    )
+
+                                    :
+
+                                    wishlistProducts.map((item) => (
+
+                                        <tr
+                                            key={item.product_id}
                                         >
+                                            <td>
 
-                                            No Wishlist Products
+                                                {
+                                                    item.image
+                                                        ?
 
-                                        </td>
+                                                        <img
+                                                            src={item.image}
+                                                            alt={item.product_name}
+                                                            className="wishlist-product-image"
+                                                        />
 
-                                    </tr>
+                                                        :
 
-                                )
+                                                        <div className="wishlist-no-image">
 
-                                :
+                                                            No Image
 
-                                wishlistProducts.map((item)=>(
+                                                        </div>
+                                                }
 
-                                    <tr
-                                        key={item.product_id}
-                                    >
-                                                                                <td>
+                                            </td>
 
-                                            {
-                                                item.image
-                                                ?
+                                            <td>
 
-                                                <img
-                                                    src={item.image}
-                                                    alt={item.product_name}
-                                                    className="wishlist-product-image"
-                                                />
+                                                <strong>
 
-                                                :
+                                                    {item.product_name}
 
-                                                <div className="wishlist-no-image">
+                                                </strong>
 
-                                                    No Image
+                                            </td>
 
-                                                </div>
-                                            }
+                                            <td>
 
-                                        </td>
+                                                {item.category}
 
-                                        <td>
+                                            </td>
 
-                                            <strong>
+                                            <td>
 
-                                                {item.product_name}
+                                                <span className="wishlist-count">
 
-                                            </strong>
+                                                    {item.wishlist_count}
 
-                                        </td>
+                                                </span>
 
-                                        <td>
+                                            </td>
 
-                                            {item.category}
+                                        </tr>
 
-                                        </td>
-
-                                        <td>
-
-                                            <span className="wishlist-count">
-
-                                                 {item.wishlist_count}
-
-                                            </span>
-
-                                        </td>
-
-                                    </tr>
-
-                                ))
+                                    ))
 
                             }
 

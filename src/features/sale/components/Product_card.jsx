@@ -6,7 +6,7 @@ import { FaHeart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { Wishlist_post } from "../../wishlist/api/Wishlisht_Api";
 import WishlistQuery from "../../wishlist/queries/WishlistQuery";
-
+import { getImageUrl } from "../../../utils/imageUrl";
 // popup message ( toast )
 import showToast from "../../../utils/toast";
 
@@ -122,9 +122,9 @@ if (!products || products.length === 0) {
 
                                 const primaryImage =
                                     primaryImageRelative
-                                        ? `http://127.0.0.1:8000${primaryImageRelative}`
+                                        ? getImageUrl(primaryImageRelative)
                                         : "https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=600";
-
+                                    
                                 // Offer Details
 
                                 const startingPrice =

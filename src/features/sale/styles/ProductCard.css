@@ -116,13 +116,11 @@
 }
 
 .favorite_btn:hover{
-    color:#e53935;
     transform:scale(1.08);
 }
 
 .favorite_btn.active{
-    background:#e53935;
-    color:#fff;
+    color: #801439;
 }
 
 .favorite_btn:hover {

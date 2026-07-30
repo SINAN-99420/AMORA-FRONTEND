@@ -38,7 +38,7 @@ function ResetPassword() {
 
             const response = await axios.post(
 
-                `https://www.amora.nz/reset-password/${uidb64}/${token}/`,
+                `${import.meta.env.VITE_API_URL}/reset-password/${uidb64}/${token}/`,
                 form
 
             );

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import client from "../../../lib/ApiClient";
 import "../style/PaymentSuccess.css";
 
@@ -48,8 +48,8 @@ const PaymentSuccess = () => {
             }
 
             catch (error) {
+
                 console.log(error.response?.data);
-                console.log(error.response?.status);
 
                 setMessage(
                     error.response?.data?.message ||
@@ -57,13 +57,14 @@ const PaymentSuccess = () => {
                 );
 
                 setLoading(false);
+
             }
 
         };
 
         verifyPayment();
 
-    }, []);
+    }, [navigate, searchParams]);
 
     return (
 
@@ -76,9 +77,24 @@ const PaymentSuccess = () => {
 
                         <>
 
-                            <h2>Verifying Payment...</h2>
+                            <div className="payment-loader">
 
-                            <p>Please wait.</p>
+                                <span></span>
+
+                            </div>
+
+                            <h2 className="payment-title">
+
+                                Verifying Your Payment
+
+                            </h2>
+
+                            <p className="payment-subtitle">
+
+                                We're securely confirming your payment.
+                                This usually takes only a few seconds.
+
+                            </p>
 
                         </>
 
@@ -86,12 +102,101 @@ const PaymentSuccess = () => {
 
                         <>
 
-                            <h2>✅ Payment Successful</h2>
+                            <div className="success-icon">
 
-                            <p>{message}</p>
+                                <svg
+                                    viewBox="0 0 52 52"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
 
-                            <p>
-                                Redirecting to My Orders...
+                                    <circle
+                                        className="success-circle"
+                                        cx="26"
+                                        cy="26"
+                                        r="25"
+                                        fill="none"
+                                    />
+
+                                    <path
+                                        className="success-check"
+                                        fill="none"
+                                        d="M14 27l7 7 17-17"
+                                    />
+
+                                </svg>
+
+                            </div>
+
+                            <h2 className="payment-title">
+
+                                Payment Confirmed
+
+                            </h2>
+
+                            <p className="payment-subtitle">
+
+                                Thank you for shopping with us.
+                                Your payment has been successfully verified.
+
+                            </p>
+
+                            <div className="payment-message">
+
+                                {message}
+
+                            </div>
+
+                            <div className="payment-info">
+
+                                <div className="info-row">
+
+                                    <span>Status</span>
+
+                                    <strong>Confirmed</strong>
+
+                                </div>
+
+                                <div className="info-row">
+
+                                    <span>Order</span>
+
+                                    <strong>Processing</strong>
+
+                                </div>
+
+                                <div className="info-row">
+
+                                    <span>Next Step</span>
+
+                                    <strong>Preparing Shipment</strong>
+
+                                </div>
+
+                            </div>
+
+                            <button
+                                className="orders-btn"
+                                onClick={() => navigate("/myorders")}
+                            >
+
+                                View My Orders
+
+                            </button>
+
+                            <Link
+                                to="/shop"
+                                className="continue-shopping"
+                            >
+
+                                Continue Shopping
+
+                            </Link>
+
+                            <p className="redirect-text">
+
+                                You'll be redirected automatically in a few
+                                seconds.
+
                             </p>
 
                         </>

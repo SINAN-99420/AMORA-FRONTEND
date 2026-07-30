@@ -2,6 +2,7 @@
 import React from 'react';
 import '../styles/Offer.css';
 import Offer_Query from "../queries/Offer_Query";
+import { getImageUrl } from '../../../utils/imageUrl';
 
 function OfferPoster() {
   const { data: offers = [], isLoading, error } = Offer_Query();
@@ -19,7 +20,7 @@ function OfferPoster() {
             {offer.image && (
               <div className="offer-image-fullscreen">
                 <img
-                  src={`http://localhost:8000${offer.image}`}
+                  src={getImageUrl(offer.image)}
                   alt={offer.title}
                 />
               </div>

@@ -1,16 +1,24 @@
 import React, { useState } from "react";
 import "./../styles/ProductCard.css";
-// import '../styles/Product_filter.css';
 
 import { FaHeart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { Wishlist_post } from "../../wishlist/api/Wishlisht_Api";
+
+import {
+    Wishlist_post,
+    Wishlist_delete
+} from "../../wishlist/api/Wishlisht_Api";
+
 import WishlistQuery from "../../wishlist/queries/WishlistQuery";
+
 import { getImageUrl } from "../../../utils/imageUrl";
-// popup message ( toast )
 import showToast from "../../../utils/toast";
 
-function Product_card({ products = [], isLoading, error }) {
+function Product_card({
+    products = [],
+    isLoading,
+    error
+}) {
 
     const navigate = useNavigate();
 
@@ -18,21 +26,25 @@ function Product_card({ products = [], isLoading, error }) {
 
     const itemsPerPage = 8;
 
-    const indexOfLastProduct = currentPage * itemsPerPage;
+    const indexOfLastProduct =
+        currentPage * itemsPerPage;
 
-    const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
+    const indexOfFirstProduct =
+        indexOfLastProduct - itemsPerPage;
 
-    const currentProducts = products.slice(
-        indexOfFirstProduct,
-        indexOfLastProduct
-    );
+    const currentProducts =
+        products.slice(
+            indexOfFirstProduct,
+            indexOfLastProduct
+        );
 
-    const totalPages = Math.ceil(
-        products.length / itemsPerPage
-    );
+    const totalPages =
+        Math.ceil(
+            products.length / itemsPerPage
+        );
 
     const {
-        data: wishdata,
+        data: wishdata = [],
         refetch
     } = WishlistQuery();
 
@@ -45,17 +57,22 @@ function Product_card({ products = [], isLoading, error }) {
 
         try {
 
-            const wishlist = wishdata || [];
+            const wishlistItem =
+                wishdata.find(
+                    item =>
+                        item.product === product.id
+                );
 
-            const alreadyExist = wishlist.some(
-                (item) =>
-                    item.product === product.id
-            );
+            if (wishlistItem) {
 
-            if (alreadyExist) {
+                await Wishlist_delete(
+                    wishlistItem.id
+                );
 
-                showToast.info(
-                    "Product already exists in wishlist"
+                await refetch();
+
+                showToast.success(
+                    "Product removed from wishlist"
                 );
 
                 return;
@@ -81,16 +98,34 @@ function Product_card({ products = [], isLoading, error }) {
     };
 
     if (isLoading) {
-    return <h2 className="loading-state">Loading Products...</h2>;
-}
 
-if (error) {
-    return <h2 className="error-state">Something went wrong.</h2>;
-}
+        return (
+            <h2 className="loading-state">
+                Loading Products...
+            </h2>
+        );
 
-if (!products || products.length === 0) {
-    return <h2 className="error-state">No Products Found.</h2>;
-}
+    }
+
+    if (error) {
+
+        return (
+            <h2 className="error-state">
+                Something went wrong.
+            </h2>
+        );
+
+    }
+
+    if (!products || products.length === 0) {
+
+        return (
+            <h2 className="error-state">
+                No Products Found.
+            </h2>
+        );
+
+    }
 
     return (
 
@@ -103,13 +138,22 @@ if (!products || products.length === 0) {
                         : "shop-many-products"
                 }`}
             >
-
-                {
+                                {
 
                     currentProducts.length > 0 ? (
 
                         currentProducts.map(
+
                             (product) => {
+
+                                const wishlistItem =
+                                    wishdata.find(
+                                        item =>
+                                            item.product === product.id
+                                    );
+
+                                const isWishlisted =
+                                    !!wishlistItem;
 
                                 const firstVariant =
                                     product.variants?.[0];
@@ -122,10 +166,10 @@ if (!products || products.length === 0) {
 
                                 const primaryImage =
                                     primaryImageRelative
-                                        ? getImageUrl(primaryImageRelative)
+                                        ? getImageUrl(
+                                            primaryImageRelative
+                                        )
                                         : "https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=600";
-                                    
-                                // Offer Details
 
                                 const startingPrice =
                                     product.starting_price;
@@ -138,7 +182,8 @@ if (!products || products.length === 0) {
 
                                 const discountPercentage =
                                     product.discount_percentage;
-                                                                return (
+
+                                return (
 
                                     <div
                                         className="product_card"
@@ -153,7 +198,11 @@ if (!products || products.length === 0) {
                                         <div className="product_img">
 
                                             <button
-                                                className="favorite_btn"
+                                                className={`favorite_btn ${
+                                                    isWishlisted
+                                                        ? "active"
+                                                        : ""
+                                                }`}
                                                 onClick={(e) =>
                                                     addTowislist(
                                                         product,
@@ -162,10 +211,13 @@ if (!products || products.length === 0) {
                                                 }
                                                 aria-label="Wishlist"
                                             >
+
                                                 <FaHeart />
+
                                             </button>
 
                                             {
+
                                                 hasOffer && (
 
                                                     <div className="offer-badge">
@@ -175,6 +227,7 @@ if (!products || products.length === 0) {
                                                     </div>
 
                                                 )
+
                                             }
 
                                             <img
@@ -203,27 +256,13 @@ if (!products || products.length === 0) {
                                                 <span className="product-category">
 
                                                     {
+
                                                         product.category?.name ||
                                                         "Premium Wear"
+
                                                     }
 
                                                 </span>
-
-                                                {/* <div className="star-rating">
-
-                                                    <span className="rating-val">
-
-                                                        4.8
-
-                                                    </span>
-
-                                                    <span className="star-icon">
-
-                                                        ★
-
-                                                    </span>
-
-                                                </div> */}
 
                                             </div>
 
@@ -234,8 +273,7 @@ if (!products || products.length === 0) {
                                             </h3>
 
                                             <div className="product-footer">
-
-                                                {
+                                                                                                {
 
                                                     hasOffer ? (
 
@@ -305,7 +343,7 @@ if (!products || products.length === 0) {
 
                         <div className="no-products">
 
-                            products Loading....
+                            Products Loading....
 
                         </div>
 
@@ -314,52 +352,68 @@ if (!products || products.length === 0) {
                 }
 
             </section>
-                  {totalPages > 1 && (
-
-        <div className="pagination-wrapper">
-
-          <div className="numbers">
 
             {
 
-              Array.from(
-                {
-                  length: totalPages
-                },
-                (_, i) => i + 1
-              ).map((number) => (
+                totalPages > 1 && (
 
-                <div
-                  key={number}
-                  onClick={() =>
-                    setCurrentPage(
-                      number
-                    )
-                  }
-                  className={`page-num ${
-                    currentPage === number
-                      ? "active"
-                      : ""
-                  }`}
-                >
+                    <div className="pagination-wrapper">
 
-                  {number}
+                        <div className="numbers">
 
-                </div>
+                            {
 
-              ))
+                                Array.from(
+
+                                    {
+                                        length: totalPages
+                                    },
+
+                                    (_, i) => i + 1
+
+                                ).map(
+
+                                    (number) => (
+
+                                        <div
+
+                                            key={number}
+
+                                            onClick={() =>
+                                                setCurrentPage(
+                                                    number
+                                                )
+                                            }
+
+                                            className={`page-num ${
+                                                currentPage === number
+                                                    ? "active"
+                                                    : ""
+                                            }`}
+
+                                        >
+
+                                            {number}
+
+                                        </div>
+
+                                    )
+
+                                )
+
+                            }
+
+                        </div>
+
+                    </div>
+
+                )
 
             }
 
-          </div>
-
         </div>
 
-      )}
-
-    </div>
-
-  );
+    );
 
 }
 

@@ -38,7 +38,7 @@ function ResetPassword() {
 
             const response = await axios.post(
 
-                `http://www.amora.nz/reset-password/${uidb64}/${token}/`,
+                `https://www.amora.nz/reset-password/${uidb64}/${token}/`,
                 form
 
             );

@@ -16,7 +16,7 @@ function ForgotPassword() {
 
         try {
 
-            await axios.post("http://www.amora.nz/forgot-password/", {
+            await axios.post("https://www.amora.nz/forgot-password/", {
                 email,
             });
 

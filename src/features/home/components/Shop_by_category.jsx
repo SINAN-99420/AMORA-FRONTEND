@@ -197,7 +197,7 @@ function Shop_by_category() {
                 Shop by Category
             </h2>
 
-            <div className="divider">
+            <div className="divider-shop">
                 <span>
                     ✦
                 </span>

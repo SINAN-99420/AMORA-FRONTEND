@@ -1,17 +1,27 @@
 import React, { useEffect, useState } from "react";
 import "../style/Single_product.css";
-import { NavLink, useLocation, useParams } from "react-router-dom";
+import {
+    NavLink,
+    useLocation,
+    useParams,
+    useNavigate
+} from "react-router-dom";
 import { AiOutlineDoubleRight } from "react-icons/ai";
 import GetSingle_product_Query from "../queries/GetSingle_product_Query";
 import Cart_query from "../../cart/queries/Cart_query";
 import { addToCart_Post } from "../api/AddToCart_Api";
 
 import WishlistQuery from "../../wishlist/queries/WishlistQuery";
-import { Wishlist_post } from "../../wishlist/api/Wishlisht_Api";
+import {
+    Wishlist_post,
+    Wishlist_delete
+} from "../../wishlist/api/Wishlisht_Api";
 import showToast from "../../../utils/toast";
 import { getImageUrl } from "../../../utils/imageUrl";
 
 function Single_product() {
+
+    const navigate = useNavigate();
 
     const { id } = useParams();
 
@@ -222,18 +232,22 @@ function Single_product() {
 
     const addTocart = async () => {
 
-        if (
+        const token = localStorage.getItem("access");
 
-            !selectedColor ||
+        if (!token) {
 
-            !selectedSize
+            showToast.info("Please login to continue");
 
-        ) {
+            navigate("/login");
+
+            return;
+
+        }
+
+        if (!selectedColor || !selectedSize) {
 
             showToast.warning(
-
                 "Please select color and size"
-
             );
 
             return;
@@ -243,25 +257,17 @@ function Single_product() {
         if (!selectedSizeVariant) {
 
             showToast.warning(
-
                 "This combination is not available"
-
             );
 
             return;
 
         }
 
-        if (
-
-            selectedSizeVariant.stock <= 0
-
-        ) {
+        if (selectedSizeVariant.stock <= 0) {
 
             showToast.info(
-
                 "Out of stock"
-
             );
 
             return;
@@ -278,19 +284,35 @@ function Single_product() {
 
         };
 
-        await addToCart_Post(
+        try {
 
-            cartPayload
+            await addToCart_Post(
+                cartPayload
+            );
 
-        );
+            await refetchCart();
 
-        await refetchCart();
+            showToast.success(
+                "Product added to cart"
+            );
 
-        showToast.success(
+        }
 
-            "Product added to cart"
+        catch (error) {
 
-        );
+            console.log(error);
+
+            if (error.response?.status === 401) {
+
+                showToast.info(
+                    "Please login to continue"
+                );
+
+                navigate("/login");
+
+            }
+
+        }
 
     };
 
@@ -308,24 +330,34 @@ function Single_product() {
 
     const addToWishlist = async () => {
 
+        const token = localStorage.getItem("access");
+
+        if (!token) {
+
+            showToast.info("Please login to continue");
+
+            navigate("/login");
+
+            return;
+
+        }
+
         try {
 
-            const alreadyExist =
+            const wishlistItem = wishdata.find(
+                item => item.product === data.id
+            );
 
-                wishdata.some(
+            if (wishlistItem) {
 
-                    item =>
-
-                        item.product === data.id
-
+                await Wishlist_delete(
+                    wishlistItem.id
                 );
 
-            if (alreadyExist) {
+                await refetchWishlist();
 
-                showToast.info(
-
-                    "Product already exists in wishlist"
-
+                showToast.success(
+                    "Product removed from wishlist"
                 );
 
                 return;
@@ -337,16 +369,24 @@ function Single_product() {
             await refetchWishlist();
 
             showToast.success(
-
                 "Product added to wishlist"
-
             );
 
         }
 
-        catch (err) {
+        catch (error) {
 
-            console.error(err);
+            console.log(error);
+
+            if (error.response?.status === 401) {
+
+                showToast.info(
+                    "Please login to continue"
+                );
+
+                navigate("/login");
+
+            }
 
         }
 

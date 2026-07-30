@@ -4,6 +4,12 @@ import Newarrival_Query from "../../newArrivals/queries/Newarrival_Query";
 import { Link, useNavigate } from "react-router-dom";
 import { getImageUrl } from "../../../utils/imageUrl";
 
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Autoplay } from "swiper/modules";
+
+import "swiper/css";
+import "swiper/css/navigation";
+
 const New_Arrival_Home = ({ products = [] }) => {
 
     const navigate = useNavigate();
@@ -37,9 +43,7 @@ const New_Arrival_Home = ({ products = [] }) => {
                         </h2>
 
                         <p className="heading-sub">
-
                             The latest curated collection for the modern woman.
-
                         </p>
 
                     </div>
@@ -71,45 +75,85 @@ const New_Arrival_Home = ({ products = [] }) => {
                     </Link>
 
                 </div>
-
-                {/* Carousel */}
-
                 <div className="carousel-container">
 
-                    <div className="carousel-track">
+                    <Swiper
+
+                        modules={[Navigation, Autoplay]}
+
+                        navigation
+
+                        loop={true}
+
+                        grabCursor={true}
+
+                        spaceBetween={20}
+
+                        autoplay={{
+
+                            delay: 2500,
+
+                            disableOnInteraction: false,
+
+                            pauseOnMouseEnter: true,
+
+                        }}
+
+                        breakpoints={{
+
+                            320: {
+                                slidesPerView: 1.2,
+                            },
+
+                            576: {
+                                slidesPerView: 2,
+                            },
+
+                            768: {
+                                slidesPerView: 2.5,
+                            },
+
+                            992: {
+                                slidesPerView: 3,
+                            },
+
+                            1200: {
+                                slidesPerView: 4,
+                            }
+
+                        }}
+
+                    >
 
                         {
 
-                            [...data, ...data].map(
-                                (
-                                    item,
-                                    index
-                                ) => {
+                            data.map((item) => {
 
-                                    const startingPrice =
-                                        item.starting_price;
+                                const startingPrice =
+                                    item.starting_price;
 
-                                    const discountedPrice =
-                                        item.discounted_price;
+                                const discountedPrice =
+                                    item.discounted_price;
 
-                                    const hasOffer =
-                                        item.has_offer;
+                                const hasOffer =
+                                    item.has_offer;
 
-                                    const discountPercentage =
-                                        item.discount_percentage;
+                                const discountPercentage =
+                                    item.discount_percentage;
 
-                                    return (
-                                                                                <div
+                                return (
+
+                                    <SwiperSlide
+                                        key={item.id}
+                                    >
+                                        <div
                                             className="new-product-card"
-                                            key={`${item.id}-${index}`}
                                         >
 
                                             <div
                                                 className="image-container"
                                                 onClick={() =>
-                                                    navigate(
-                                                        `/single/${item.id}`
-                                                    )
+                                                    navigate(`/single/${item.id}`)
                                                 }
                                             >
 
@@ -120,6 +164,7 @@ const New_Arrival_Home = ({ products = [] }) => {
                                                 />
 
                                                 {
+
                                                     hasOffer && (
 
                                                         <span className="badge-offer">
@@ -129,9 +174,11 @@ const New_Arrival_Home = ({ products = [] }) => {
                                                         </span>
 
                                                     )
+
                                                 }
 
                                                 {
+
                                                     item.is_active && (
 
                                                         <span className="badge-new">
@@ -141,9 +188,11 @@ const New_Arrival_Home = ({ products = [] }) => {
                                                         </span>
 
                                                     )
+
                                                 }
 
                                                 {
+
                                                     item.hasWishlist && (
 
                                                         <button className="wishlist-btn">
@@ -168,6 +217,7 @@ const New_Arrival_Home = ({ products = [] }) => {
                                                         </button>
 
                                                     )
+
                                                 }
 
                                                 <button className="quick-add-btn">
@@ -176,6 +226,7 @@ const New_Arrival_Home = ({ products = [] }) => {
 
                                                 </button>
 
+                                            </div>
                                             </div>
 
                                             <div className="product-details">
@@ -205,22 +256,14 @@ const New_Arrival_Home = ({ products = [] }) => {
                                                                     <span className="old-price">
 
                                                                         NZD $
-                                                                        {
-                                                                            Number(
-                                                                                startingPrice
-                                                                            ).toFixed(2)
-                                                                        }
+                                                                        {Number(startingPrice).toFixed(2)}
 
                                                                     </span>
 
                                                                     <span className="product-price">
 
                                                                         NZD $
-                                                                        {
-                                                                            Number(
-                                                                                discountedPrice
-                                                                            ).toFixed(2)
-                                                                        }
+                                                                        {Number(discountedPrice).toFixed(2)}
 
                                                                     </span>
 
@@ -231,11 +274,7 @@ const New_Arrival_Home = ({ products = [] }) => {
                                                                 <span className="product-price">
 
                                                                     NZD $
-                                                                    {
-                                                                        Number(
-                                                                            startingPrice
-                                                                        ).toFixed(2)
-                                                                    }
+                                                                    {Number(startingPrice).toFixed(2)}
 
                                                                 </span>
 
@@ -245,48 +284,23 @@ const New_Arrival_Home = ({ products = [] }) => {
 
                                                     </div>
 
-                                                    {/* {
-
-                                                        item.is_active && (
-
-                                                            <div className="product-rating">
-
-                                                                <span className="star-icon">
-
-                                                                    ★
-
-                                                                </span>
-
-                                                                <span className="rating-num">
-
-                                                                    5
-
-                                                                </span>
-
-                                                            </div>
-
-                                                        )
-
-                                                    } */}
-
                                                 </div>
 
                                             </div>
 
-                                        </div>
+                                    </SwiperSlide>
 
-                                    );
+                                );
 
-                                }
-
-                            )
+                            })
 
                         }
 
-                    </div>
+                    </Swiper>
 
                 </div>
-                            </section>
+
+            </section>
 
         </div>
 

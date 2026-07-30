@@ -16,15 +16,15 @@
     margin: 0 0 12px;
 }
 
-.divider {
+.divider-shop {
     width: 120px;
     height: 25px;
     margin: auto;
     position: relative;
 }
 
-.divider::before,
-.divider::after {
+.divider-shop::before,
+.divider-shop::after {
     content: "";
     position: absolute;
     top: 50%;
@@ -33,15 +33,15 @@
     background: #e8bcbc;
 }
 
-.divider::before {
+.divider-shop::before {
     left: 0;
 }
 
-.divider::after {
+.divider-shop::after {
     right: 0;
 }
 
-.divider span {
+.divider-shop span {
     color: #d89b9b;
     font-size: 18px;
 }

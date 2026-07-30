@@ -327,17 +327,7 @@ const Invoice = () => {
                             Payment Information
                         </h4>
 
-                        <div className="invoice-payment-row">
-
-                            <span>
-                                Payment Method
-                            </span>
-
-                            <strong>
-                                {order.payment_method}
-                            </strong>
-
-                        </div>
+                       
 
                         <div className="invoice-payment-row">
 

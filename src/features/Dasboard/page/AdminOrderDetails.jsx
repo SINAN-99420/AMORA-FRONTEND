@@ -255,21 +255,7 @@ const OrderDetails = () => {
 
                     </h3>
 
-                    <div className="admin-detail-row">
-
-                        <span>
-
-                            Method
-
-                        </span>
-
-                        <strong>
-
-                            {order.payment_method}
-
-                        </strong>
-
-                    </div>
+                    
 
                     <div className="admin-detail-row">
 

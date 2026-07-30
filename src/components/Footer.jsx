@@ -82,7 +82,7 @@ function Footer() {
                             </li>
 
                             <li>
-                                <FaMapMarkerAlt /> Auckland, New Zealand
+                                <FaMapMarkerAlt /> Wellington, New Zealand
                             </li>
 
                             <li>& Kerala, India</li>

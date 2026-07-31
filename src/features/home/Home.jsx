@@ -1,9 +1,12 @@
 import React from 'react'
 import './Home.css'
 
-import Lady from '../../assets/treditionalLady.jpg'
+import vedio1 from '../../assets/vedio1.mp4'
 
-import Men from '../../assets/Treditional Men2.jpg'
+import vedio2 from '../../assets/vedio2.mp4'
+import poster1 from '../../assets/poster1.png'
+import poster2 from '../../assets/poster2.png'
+
 
 import Our_speciality from './components/Our_speciality';
 import Shop_by_category from './components/Shop_by_category';
@@ -54,25 +57,48 @@ function Home() {
                 <section className="section-heritage">
 
                     <div className="section-heritage-text">
+
+                        <span className="heritage-tag">
+                            OUR HERITAGE
+                        </span>
+
                         <h2>
-                            {sections[0].title}
+                            Timeless Elegance, Crafted With Tradition
                         </h2>
 
                         <p>
-                            {sections[0].text}
+                            At Amora, every saree tells a story of heritage, artistry, and timeless beauty. Inspired by traditional craftsmanship, our collections are thoughtfully curated for women who value elegance in every detail.
                         </p>
 
                         <p>
-                            From handcrafted details to exceptional fabrics, every Amora creation celebrates individuality and elegance.
+                            Blending classic techniques with modern sophistication, we create pieces that honour tradition while becoming a cherished part of today's wardrobe.
                         </p>
-                    </div>
 
+                    </div>
 
                     <div className="section-heritage-gallery">
 
-                        <img src={Lady} />
+                        <video
+                            className="heritage-video"
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                            poster={poster2}
+                        >
+                            <source src={vedio1} type="video/mp4" />
+                        </video>
 
-                        <img src={Men} />
+                        <video
+                            className="heritage-video"
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                            poster={poster1}
+                        >
+                            <source src={vedio2} type="video/mp4" />
+                        </video>
 
                     </div>
 

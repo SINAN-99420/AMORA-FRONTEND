@@ -42,7 +42,7 @@ const ContactUs = () => {
             return;
         }
 
-        const whatsappNumber = "8078144976";
+        const whatsappNumber = "64225493376";
 
         const text = `Hello Amora NZ Team,
 

@@ -98,17 +98,13 @@ export default function Wishlist() {
                                         <div className="wishlist-price-box">
 
                                             <span className="wishlist-old-price">
-
                                                 NZD $
-                                                {Number(item.starting_price).toFixed(2)}
-
+                                                {Number(item.original_price).toFixed(2)}
                                             </span>
 
                                             <span className="wishlist-new-price">
-
                                                 NZD $
                                                 {Number(item.discounted_price).toFixed(2)}
-
                                             </span>
 
                                         </div>
@@ -116,10 +112,8 @@ export default function Wishlist() {
                                     ) : (
 
                                         <span className="wishlist-new-price">
-
                                             NZD $
-                                            {Number(item.starting_price).toFixed(2)}
-
+                                            {Number(item.original_price).toFixed(2)}
                                         </span>
 
                                     )
@@ -128,7 +122,9 @@ export default function Wishlist() {
 
                             </div>
 
-                            <button onClick={(e) => { navigate(`/single/${item.product}`) }}>View More</button>
+                            <button onClick={(e) => navigate(
+                                `/single/${item.product}?variant=${item.variant}&size=${item.variant_size}`
+                            )}>View More</button>
 
                         </div>
 

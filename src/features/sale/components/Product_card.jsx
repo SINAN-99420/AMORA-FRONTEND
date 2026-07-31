@@ -57,10 +57,30 @@ function Product_card({
 
         try {
 
+            const firstVariant =
+                product.variants?.[0];
+
+            const firstVariantSize =
+                firstVariant?.sizes?.[0];
+
+            if (
+                !firstVariant ||
+                !firstVariantSize
+            ) {
+
+                showToast.error(
+                    "Variant not available"
+                );
+
+                return;
+
+            }
+
             const wishlistItem =
                 wishdata.find(
                     item =>
-                        item.product === product.id
+                        item.variant_size ===
+                        firstVariantSize.id
                 );
 
             if (wishlistItem) {
@@ -79,7 +99,15 @@ function Product_card({
 
             }
 
-            await Wishlist_post(product);
+            await Wishlist_post({
+
+                variant:
+                    firstVariant.id,
+
+                variant_size:
+                    firstVariantSize.id
+
+            });
 
             await refetch();
 
@@ -125,235 +153,236 @@ function Product_card({
             </h2>
         );
 
-    }
+    }return (
 
-    return (
+    <div className="catalog-container">
 
-        <div className="catalog-container">
+        <section
+            className={`products ${
+                products.length <= 3
+                    ? "shop-few-products"
+                    : "shop-many-products"
+            }`}
+        >
 
-            <section
-                className={`products ${
-                    products.length <= 3
-                        ? "shop-few-products"
-                        : "shop-many-products"
-                }`}
-            >
-                                {
+            {
 
-                    currentProducts.length > 0 ? (
+                currentProducts.length > 0 ? (
 
-                        currentProducts.map(
+                    currentProducts.map(
 
-                            (product) => {
+                        (product) => {
 
-                                const wishlistItem =
-                                    wishdata.find(
-                                        item =>
-                                            item.product === product.id
-                                    );
+                            const firstVariant =
+                                product.variants?.[0];
 
-                                const isWishlisted =
-                                    !!wishlistItem;
+                            const firstVariantSize =
+                                firstVariant?.sizes?.[0];
 
-                                const firstVariant =
-                                    product.variants?.[0];
+                            const wishlistItem =
+                                wishdata.find(
+                                    item =>
+                                        item.variant_size ===
+                                        firstVariantSize?.id
+                                );
 
-                                const primaryImageRelative =
-                                    firstVariant?.images?.find(
-                                        img =>
-                                            img.is_primary
-                                    )?.image;
+                            const isWishlisted =
+                                !!wishlistItem;
 
-                                const primaryImage =
-                                    primaryImageRelative
-                                        ? getImageUrl(
-                                            primaryImageRelative
+                            const primaryImageRelative =
+                                firstVariant?.images?.find(
+                                    img =>
+                                        img.is_primary
+                                )?.image;
+
+                            const primaryImage =
+                                primaryImageRelative
+                                    ? getImageUrl(
+                                        primaryImageRelative
+                                    )
+                                    : "https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=600";
+
+                            const startingPrice =
+                                product.starting_price;
+
+                            const discountedPrice =
+                                product.discounted_price;
+
+                            const hasOffer =
+                                product.has_offer;
+
+                            const discountPercentage =
+                                product.discount_percentage;
+
+                            return (
+
+                                <div
+                                    className="product_card"
+                                    key={product.id}
+                                    onClick={() =>
+                                        navigate(
+                                            `/single/${product.id}`
                                         )
-                                        : "https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=600";
+                                    }
+                                >
 
-                                const startingPrice =
-                                    product.starting_price;
+                                    <div className="product_img">
 
-                                const discountedPrice =
-                                    product.discounted_price;
+                                        <button
+                                            className={`favorite_btn ${
+                                                isWishlisted
+                                                    ? "active"
+                                                    : ""
+                                            }`}
+                                            onClick={(e) =>
+                                                addTowislist(
+                                                    product,
+                                                    e
+                                                )
+                                            }
+                                            aria-label="Wishlist"
+                                        >
 
-                                const hasOffer =
-                                    product.has_offer;
+                                            <FaHeart />
 
-                                const discountPercentage =
-                                    product.discount_percentage;
+                                        </button>
 
-                                return (
+                                        {
 
-                                    <div
-                                        className="product_card"
-                                        key={product.id}
-                                        onClick={() =>
-                                            navigate(
-                                                `/single/${product.id}`
+                                            hasOffer && (
+
+                                                <div className="offer-badge">
+
+                                                    {discountPercentage}% OFF
+
+                                                </div>
+
                                             )
+
                                         }
-                                    >
 
-                                        <div className="product_img">
+                                        <img
+                                            src={primaryImage}
+                                            alt={product.name}
+                                        />
 
-                                            <button
-                                                className={`favorite_btn ${
-                                                    isWishlisted
-                                                        ? "active"
-                                                        : ""
-                                                }`}
-                                                onClick={(e) =>
-                                                    addTowislist(
-                                                        product,
-                                                        e
-                                                    )
+                                        <button className="quick-add-bar">
+
+                                            VIEW PRODUCT
+
+                                        </button>
+
+                                    </div>
+
+                                    <div className="product_info">
+
+                                        <div
+                                            style={{
+                                                display: "flex",
+                                                justifyContent: "space-between",
+                                                alignItems: "center"
+                                            }}
+                                        >
+
+                                            <span className="product-category">
+
+                                                {
+                                                    product.category?.name ||
+                                                    "Premium Wear"
                                                 }
-                                                aria-label="Wishlist"
-                                            >
 
-                                                <FaHeart />
+                                            </span>
 
-                                            </button>
+                                        </div>
+
+                                        <h3 className="product-title">
+
+                                            {product.name}
+
+                                        </h3>
+
+                                        <div className="product-footer">
 
                                             {
 
-                                                hasOffer && (
+                                                hasOffer ? (
 
-                                                    <div className="offer-badge">
+                                                    <div className="price-box">
 
-                                                        {discountPercentage}% OFF
+                                                        <span className="old-price">
+
+                                                            NZD $
+
+                                                            {
+                                                                Number(
+                                                                    startingPrice
+                                                                ).toFixed(2)
+                                                            }
+
+                                                        </span>
+
+                                                        <span className="new-price">
+
+                                                            NZD $
+
+                                                            {
+                                                                Number(
+                                                                    discountedPrice
+                                                                ).toFixed(2)
+                                                            }
+
+                                                        </span>
 
                                                     </div>
+
+                                                ) : (
+
+                                                    <span className="price">
+
+                                                        {
+
+                                                            startingPrice
+
+                                                                ? `NZD $${Number(
+                                                                    startingPrice
+                                                                ).toFixed(2)}`
+
+                                                                : "Price unavailable"
+
+                                                        }
+
+                                                    </span>
 
                                                 )
 
                                             }
 
-                                            <img
-                                                src={primaryImage}
-                                                alt={product.name}
-                                            />
-
-                                            <button className="quick-add-bar">
-
-                                                VIEW PRODUCT
-
-                                            </button>
-
-                                        </div>
-
-                                        <div className="product_info">
-
-                                            <div
-                                                style={{
-                                                    display: "flex",
-                                                    justifyContent: "space-between",
-                                                    alignItems: "center"
-                                                }}
-                                            >
-
-                                                <span className="product-category">
-
-                                                    {
-
-                                                        product.category?.name ||
-                                                        "Premium Wear"
-
-                                                    }
-
-                                                </span>
-
-                                            </div>
-
-                                            <h3 className="product-title">
-
-                                                {product.name}
-
-                                            </h3>
-
-                                            <div className="product-footer">
-                                                                                                {
-
-                                                    hasOffer ? (
-
-                                                        <div className="price-box">
-
-                                                            <span className="old-price">
-
-                                                                NZD $
-
-                                                                {
-                                                                    Number(
-                                                                        startingPrice
-                                                                    ).toFixed(2)
-                                                                }
-
-                                                            </span>
-
-                                                            <span className="new-price">
-
-                                                                NZD $
-
-                                                                {
-                                                                    Number(
-                                                                        discountedPrice
-                                                                    ).toFixed(2)
-                                                                }
-
-                                                            </span>
-
-                                                        </div>
-
-                                                    ) : (
-
-                                                        <span className="price">
-
-                                                            {
-
-                                                                startingPrice
-
-                                                                    ? `NZD $${Number(
-                                                                        startingPrice
-                                                                    ).toFixed(2)}`
-
-                                                                    : "Price unavailable"
-
-                                                            }
-
-                                                        </span>
-
-                                                    )
-
-                                                }
-
-                                            </div>
-
                                         </div>
 
                                     </div>
 
-                                );
+                                </div>
 
-                            }
+                            );
 
-                        )
-
-                    ) : (
-
-                        <div className="no-products">
-
-                            Products Loading....
-
-                        </div>
+                        }
 
                     )
 
-                }
+                ) : (
 
-            </section>
+                    <div className="no-products">
 
-            {
+                        Products Loading....
+
+                    </div>
+
+                )
+
+            }
+
+        </section>
+                    {
 
                 totalPages > 1 && (
 

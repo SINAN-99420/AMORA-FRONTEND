@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../style/Single_product.css";
 import {
     NavLink,
-    useLocation,
+    useSearchParams,
     useParams,
     useNavigate
 } from "react-router-dom";
@@ -25,10 +25,17 @@ function Single_product() {
 
     const { id } = useParams();
 
-    const location = useLocation();
+    
 
-    const variantId = location.state?.variantId;
-    const sizeId = location.state?.sizeId;
+    const [searchParams] = useSearchParams();
+
+    const variantId = Number(
+        searchParams.get("variant")
+    );
+
+    const sizeId = Number(
+        searchParams.get("size")
+    );
 
     console.log("location state:", location.state);
     console.log("variantId:", variantId);
@@ -342,10 +349,22 @@ function Single_product() {
 
         }
 
+        if (!selectedVariant || !selectedSizeVariant) {
+
+            showToast.warning(
+                "Please select color and size"
+            );
+
+            return;
+
+        }
+
         try {
 
             const wishlistItem = wishdata.find(
-                item => item.product === data.id
+                item =>
+                    item.variant_size ===
+                    selectedSizeVariant.id
             );
 
             if (wishlistItem) {
@@ -364,7 +383,14 @@ function Single_product() {
 
             }
 
-            await Wishlist_post(data);
+            await Wishlist_post({
+
+                variant: selectedVariant.id,
+
+                variant_size:
+                    selectedSizeVariant.id
+
+            });
 
             await refetchWishlist();
 
@@ -395,6 +421,12 @@ function Single_product() {
     if (isLoading) return "Loading...";
 
     if (error) return "Something went wrong";
+
+    const isWishlisted = wishdata.some(
+        item =>
+            item.variant_size ===
+            selectedSizeVariant?.id
+    );
 
     return (
         <div className="single-product-main">
@@ -727,15 +759,14 @@ function Single_product() {
                         </button>
 
                         <button
-
                             className="buy-btn"
-
                             onClick={addToWishlist}
-
                         >
-
-                            Add to Wishlist
-
+                            {
+                                isWishlisted
+                                    ? "Remove from Wishlist"
+                                    : "Add to Wishlist"
+                            }
                         </button>
 
                     </div>

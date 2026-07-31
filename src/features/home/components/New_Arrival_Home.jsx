@@ -6,6 +6,7 @@ import { getImageUrl } from "../../../utils/imageUrl";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
+import { useEffect, useState } from "react";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -20,12 +21,31 @@ const New_Arrival_Home = ({ products = [] }) => {
         error,
     } = Newarrival_Query();
 
-    if (isLoading)
-        return <p>Loading...</p>;
+    const [showLoader, setShowLoader] = useState(true);
 
-    if (error)
-        return <p>Error loading products.</p>;
+useEffect(() => {
+    if (!isLoading) {
+        const timer = setTimeout(() => {
+            setShowLoader(false);
+        }, 700); // 700ms loader
 
+        return () => clearTimeout(timer);
+    }
+}, [isLoading]);
+
+if (isLoading || showLoader) {
+    return (
+        <div className="loading-container">
+            <div className="loader"></div>
+        </div>
+    );
+}
+
+if (error) {
+    return <p className="error-text">
+            Failed to load products.
+        </p>
+}
     return (
 
         <div className="new-arrivals-wrapper">

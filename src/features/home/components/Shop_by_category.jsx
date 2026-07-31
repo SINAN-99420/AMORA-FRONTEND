@@ -85,7 +85,7 @@ function Shop_by_category() {
     // const { data: offers = [] } = Offer_Query();
     // const offerActive = offers?.[0]?.is_active ?? false;
 
-    const { data : offerAvail = [] } = Offer_Query()
+    const { data: offerAvail = [] } = Offer_Query()
 
     const offerAvailable = offerAvail.length >= 1;
 
@@ -188,7 +188,15 @@ function Shop_by_category() {
 
     };
 
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading) {
+        return (
+            <div className="section-loader">
+                <div className="loader"></div>
+            </div>
+        );
+    }
+
+    
 
     return (
         <section className="shop-category">

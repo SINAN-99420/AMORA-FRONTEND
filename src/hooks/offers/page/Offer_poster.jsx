@@ -8,8 +8,22 @@ function OfferPoster() {
   const { data: offers = [], isLoading, error } = Offer_Query();
   const offer = offers[0];
 
-  if (isLoading) return <div className="offer-loading">Loading...</div>;
-  if (error) return <div className="offer-error">Error loading offer.</div>;
+if (isLoading) {
+    return (
+        <div className="loading-container">
+            <div className="loader"></div>
+            
+        </div>
+    );
+}
+
+if (error) {
+    return (
+        <p className="error-text">
+            Failed to load offers.
+        </p>
+    );
+}
 
   return (
     <>

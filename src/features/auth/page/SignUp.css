@@ -213,6 +213,7 @@ transition:background-color 5000s ease-in-out 0s;
 
 .signup-container{
 padding:16px;
+padding-top: 100px;
 min-height:calc(100vh - 70px);
 }
 
@@ -235,6 +236,7 @@ font-size:14px;
 
 .signup-container{
 padding:12px;
+padding-top: 100px;
 align-items:center;
 }
 

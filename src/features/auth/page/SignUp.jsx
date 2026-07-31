@@ -240,7 +240,7 @@ function Signup() {
                                     text="continue_with"
                                     shape="pill"
                                     size="large"
-                                    width="360"
+                                    width="280"
                                 />
 
                             </div>

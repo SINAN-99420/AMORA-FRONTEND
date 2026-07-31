@@ -17,6 +17,7 @@ import Category_hooks from '../../hooks/Category_hooks'
 import Offer_Query from '../../hooks/offers/queries/Offer_Query'
 import Heropage from './components/Heropage'
 import Navbar from '../../components/Navbar'
+import ContactUs from '../../components/Contact'
 
 function Home() {
 
@@ -108,6 +109,8 @@ function Home() {
 
             <div >
                 <Offer_poster />
+                
+                <ContactUs />
             </div>
 
         </div>

@@ -13,6 +13,7 @@ import Product_card from '../features/sale/components/Product_card'
 
 import MyOrder from '../features/myOrders/page/My_orders'
 import PaymentSuccess from '../features/cart/page/PaymentSuccess'
+import ContactUs from '../components/Contact'
 
 import Login from '../features/auth/page/Login'
 import Signup from '../features/auth/page/SignUp'
@@ -31,38 +32,38 @@ function Router() {
                 <Route path='/' element={<Home />} />
                 <Route path='shop' element={<Sale />} />
                 <Route path='/about' element={<About />} />
-              
+
                 <Route path='profile' element={
                     <ProtectedRoute>
-                    <Profile />
+                        <Profile />
                     </ProtectedRoute>
-                    } />
+                } />
 
                 <Route path="/single/:id" element={<Single_product />} />
 
                 <Route path="checkout" element={
                     <ProtectedRoute>
-                    <Cart_page />
+                        <Cart_page />
                     </ProtectedRoute>
-                    } />
+                } />
                 <Route path="wishlist" element={
                     <ProtectedRoute>
-                    <Wishlist />
+                        <Wishlist />
                     </ProtectedRoute>
-                    } />
+                } />
                 <Route path="checkoutpage" element={
                     <ProtectedRoute>
-                    <Checkout />
+                        <Checkout />
                     </ProtectedRoute>
-                    } />
+                } />
 
                 <Route path="/offers" element={<Offer_poster />} />
 
                 <Route path='myorders' element={
                     <ProtectedRoute>
-                    <MyOrder />
+                        <MyOrder />
                     </ProtectedRoute>
-                    } />
+                } />
 
                 <Route path='login' element={<Login />} />
                 <Route path='signup' element={<Signup />} />
@@ -79,9 +80,9 @@ function Router() {
                     path="/orderDashboard/details/:id"
                     element={
                         <AdminRoute>
-                    <OrderDetails />
-                    </AdminRoute>
-                }
+                            <OrderDetails />
+                        </AdminRoute>
+                    }
                 />
                 <Route
                     path="/orderDashboard/invoice/:id"
@@ -92,9 +93,10 @@ function Router() {
                     }
                 />
                 <Route
-    path="/payment-success"
-    element={<PaymentSuccess />}
-/>
+                    path="/payment-success"
+                    element={<PaymentSuccess />}
+                />
+                <Route path='contact' element={<ContactUs />} />
 
             </Routes>
 

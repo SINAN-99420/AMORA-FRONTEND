@@ -3,6 +3,7 @@ import "./../styles/ProductCard.css";
 
 import { FaHeart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 import {
     Wishlist_post,
@@ -19,6 +20,8 @@ function Product_card({
     isLoading,
     error
 }) {
+
+    
 
     const navigate = useNavigate();
 
@@ -124,6 +127,10 @@ function Product_card({
         }
 
     };
+
+     useEffect(() => {
+            window.scrollTo(0, 0);
+          }, [currentPage]);
 
     if (isLoading) {
 

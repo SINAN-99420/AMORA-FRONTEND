@@ -334,29 +334,7 @@ const MyOrders = () => {
 
                                 </div>
 
-                                {
-
-                                    (
-                                        order.status === "Pending" ||
-
-                                        order.status === "Processing"
-
-                                    ) && (
-
-                                        <button
-                                            className="my-order-cancel-btn"
-                                            onClick={() =>
-                                                handleCancelOrder(order.id)
-                                            }
-                                        >
-
-                                            Cancel Order
-
-                                        </button>
-
-                                    )
-
-                                }
+                                
 
                             </div>
 

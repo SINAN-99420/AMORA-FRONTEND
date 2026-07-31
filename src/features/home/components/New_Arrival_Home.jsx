@@ -100,27 +100,23 @@ const New_Arrival_Home = ({ products = [] }) => {
                         }}
 
                         breakpoints={{
-
                             320: {
-                                slidesPerView: 1.2,
+                                slidesPerView: 1,
+                                centeredSlides: true,
                             },
-
                             576: {
                                 slidesPerView: 2,
+                                centeredSlides: false,
                             },
-
                             768: {
                                 slidesPerView: 2.5,
                             },
-
                             992: {
                                 slidesPerView: 3,
                             },
-
                             1200: {
                                 slidesPerView: 4,
                             }
-
                         }}
 
                     >
@@ -227,66 +223,66 @@ const New_Arrival_Home = ({ products = [] }) => {
                                                 </button>
 
                                             </div>
-                                            </div>
+                                        </div>
 
-                                            <div className="product-details">
+                                        <div className="product-details">
 
-                                                <span className="product-tag">
+                                            <span className="product-tag">
 
-                                                    {item.name || "EXCLUSIVE"}
+                                                {item.name || "EXCLUSIVE"}
 
-                                                </span>
+                                            </span>
 
-                                                <h3 className="newHome-product-title">
+                                            <h3 className="newHome-product-title">
 
-                                                    {item.description}
+                                                {item.description}
 
-                                                </h3>
+                                            </h3>
 
-                                                <div className="product-meta">
+                                            <div className="product-meta">
 
-                                                    <div className="price-area">
+                                                <div className="price-area">
 
-                                                        {
+                                                    {
 
-                                                            hasOffer ? (
+                                                        hasOffer ? (
 
-                                                                <>
+                                                            <>
 
-                                                                    <span className="old-price">
-
-                                                                        NZD $
-                                                                        {Number(startingPrice).toFixed(2)}
-
-                                                                    </span>
-
-                                                                    <span className="product-price">
-
-                                                                        NZD $
-                                                                        {Number(discountedPrice).toFixed(2)}
-
-                                                                    </span>
-
-                                                                </>
-
-                                                            ) : (
-
-                                                                <span className="product-price">
+                                                                <span className="old-price">
 
                                                                     NZD $
                                                                     {Number(startingPrice).toFixed(2)}
 
                                                                 </span>
 
-                                                            )
+                                                                <span className="product-price">
 
-                                                        }
+                                                                    NZD $
+                                                                    {Number(discountedPrice).toFixed(2)}
 
-                                                    </div>
+                                                                </span>
+
+                                                            </>
+
+                                                        ) : (
+
+                                                            <span className="product-price">
+
+                                                                NZD $
+                                                                {Number(startingPrice).toFixed(2)}
+
+                                                            </span>
+
+                                                        )
+
+                                                    }
 
                                                 </div>
 
                                             </div>
+
+                                        </div>
 
                                     </SwiperSlide>
 

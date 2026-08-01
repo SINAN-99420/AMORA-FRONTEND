@@ -183,7 +183,7 @@ body{
 
 table{
     width:100%;
-    min-width:900px;
+    /* min-width:900px; */
     border-collapse:collapse;
 }
 
@@ -416,9 +416,9 @@ tbody tr:hover{
         padding:25px;
     }
 
-    table{
+    /* table{
         min-width:850px;
-    }
+    } */
 
 }
 
@@ -437,8 +437,14 @@ tbody tr:hover{
     }
 
     .order-search{
-        min-width:100%;
+        min-width:32%;
         order:100;
+    }
+    .tabs button{
+        width: 32%;
+    }
+    .pagination button{
+        width: 0%;
     }
 
     .tabs select{
@@ -479,17 +485,18 @@ tbody tr:hover{
         align-items:stretch;
     }
 
-    .tabs button{
+    /* .tabs button{
         width:100%;
-    }
+    } */
+
 
     .order-search{
-        width:100%;
-        min-width:100%;
+        width:32%;
+        
     }
 
     .tabs select{
-        width:100%;
+        width:32%;
     }
 
     .orders-box{

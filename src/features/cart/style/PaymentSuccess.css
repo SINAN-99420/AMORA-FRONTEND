@@ -149,6 +149,104 @@
     font-size:14px;
 }
 
+/* =========================================
+   PAYMENT FAILED
+========================================= */
+
+.payment-failed-page{
+    background:#fff7f7;
+}
+
+.payment-failed-card{
+    border-color:#f0d4d4;
+}
+
+
+/* Failed Icon */
+
+.failed-icon{
+    width:72px;
+    height:72px;
+    margin:0 auto 24px;
+}
+
+.failed-icon svg{
+    width:100%;
+    height:100%;
+}
+
+.failed-icon circle{
+    stroke:#c83f49;
+    stroke-width:2;
+}
+
+.failed-icon path{
+    stroke:#c83f49;
+    stroke-width:2.5;
+    stroke-linecap:round;
+}
+
+
+/* Error Message */
+
+.payment-error-message{
+    width:100%;
+    margin:22px 0;
+    padding:14px 16px;
+
+    background:#fff1f1;
+    border:1px solid #f2d0d0;
+    border-radius:7px;
+
+    color:#a8323b;
+
+    font-size:13px;
+    line-height:1.6;
+
+    text-align:left;
+}
+
+
+/* Failed Info */
+
+.failed-info .info-row strong{
+    color:#b7353f;
+}
+
+
+/* Retry Button */
+
+.retry-payment-btn{
+    width:100%;
+
+    margin-top:24px;
+    padding:14px 20px;
+
+    border:none;
+    border-radius:5px;
+
+    background:#8B1E3F;
+    color:#fff;
+
+    font-family:inherit;
+    font-size:14px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition: 
+        background .25s ease,
+        transform .2s ease;
+}
+ 
+.retry-payment-btn:hover{
+    background:#721832;
+}
+
+.retry-payment-btn:active{
+    transform:scale(.99);
+}
+
 @keyframes spin{
 
     from{

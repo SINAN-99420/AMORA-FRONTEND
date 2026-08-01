@@ -114,7 +114,7 @@ const Invoice = () => {
                         </h1>
 
                         <p>
-                             Wellington, New Zealand
+                            Wellington, New Zealand
                         </p>
 
                         <p>
@@ -327,7 +327,7 @@ const Invoice = () => {
                             Payment Information
                         </h4>
 
-                       
+
 
                         <div className="invoice-payment-row">
 
@@ -364,15 +364,13 @@ const Invoice = () => {
                             </span>
 
                             <span>
-
-                                NZ$
-                                {Number(
-                                    order.total_amount
+                                NZ$ {Number(
+                                    order.subtotal || 0
                                 ).toFixed(2)}
-
                             </span>
 
                         </div>
+
 
                         <div className="invoice-summary-row">
 
@@ -381,22 +379,19 @@ const Invoice = () => {
                             </span>
 
                             <span>
-                                FREE
+
+                                {
+                                    Number(order.shipping_charge || 0) === 0
+                                        ? "FREE"
+                                        : `NZ$ ${Number(
+                                            order.shipping_charge
+                                        ).toFixed(2)}`
+                                }
+
                             </span>
 
                         </div>
 
-                        <div className="invoice-summary-row">
-
-                            <span>
-                                Discount
-                            </span>
-
-                            <span>
-                                Included
-                            </span>
-
-                        </div>
 
                         <div className="invoice-summary-total">
 
@@ -405,12 +400,9 @@ const Invoice = () => {
                             </span>
 
                             <strong>
-
-                                NZ$
-                                {Number(
-                                    order.total_amount
+                                NZ$ {Number(
+                                    order.total_amount || 0
                                 ).toFixed(2)}
-
                             </strong>
 
                         </div>

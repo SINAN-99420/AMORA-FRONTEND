@@ -120,7 +120,7 @@ const OrderDetails = () => {
 
                     <h2>
 
-                    #{`ORD-${String(order.id).padStart(3, "0")}`}
+                        #{`ORD-${String(order.id).padStart(3, "0")}`}
 
                     </h2>
 
@@ -255,7 +255,7 @@ const OrderDetails = () => {
 
                     </h3>
 
-                    
+
 
                     <div className="admin-detail-row">
 
@@ -337,10 +337,10 @@ const OrderDetails = () => {
                                             <td>
 
                                                 <img
-                                                src={getImageUrl(item.product_image)}
-                                                alt={item.product_name}
-                                                className="admin-product-image"
-                                            />
+                                                    src={getImageUrl(item.product_image)}
+                                                    alt={item.product_name}
+                                                    className="admin-product-image"
+                                                />
 
                                             </td>
 
@@ -403,15 +403,42 @@ const OrderDetails = () => {
                     <div className="admin-detail-row">
 
                         <span>
-
-                            Total Amount
-
+                            Subtotal
                         </span>
 
                         <strong>
+                            NZ$ {Number(order.subtotal || 0).toFixed(2)}
+                        </strong>
 
-                            NZ$ {order.total_amount}
+                    </div>
 
+
+
+                    <div className="admin-detail-row">
+
+                        <span>
+                            Shipping
+                        </span>
+
+                        <strong>
+                            {
+                                Number(order.shipping_charge || 0) === 0
+                                    ? "Free"
+                                    : `NZ$ ${Number(order.shipping_charge).toFixed(2)}`
+                            }
+                        </strong>
+
+                    </div>
+
+
+                    <div className="admin-detail-row admin-order-grand-total">
+
+                        <span>
+                            Total Amount
+                        </span>
+
+                        <strong>
+                            NZ$ {Number(order.total_amount || 0).toFixed(2)}
                         </strong>
 
                     </div>

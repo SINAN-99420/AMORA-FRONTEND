@@ -27,7 +27,7 @@ export default function OrderDashboard() {
     const [orderPage, setOrderPage] = useState(1);
     const [lowStockPage, setLowStockPage] = useState(1);
     const [wishlistPage, setWishlistPage] = useState(1);
-    const ITEMS_PER_PAGE = 2;
+    const ITEMS_PER_PAGE = 7;
 
     const getDashboard = async () => {
 

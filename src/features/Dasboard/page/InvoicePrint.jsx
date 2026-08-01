@@ -114,7 +114,7 @@ const Invoice = () => {
                         </h1>
 
                         <p>
-                            Auckland, New Zealand
+                             Wellington, New Zealand
                         </p>
 
                         <p>

@@ -189,12 +189,9 @@ function Shop_by_category() {
     };
 
     if (isLoading) {
-        return (
-            <div className="section-loader">
-                <div className="loader"></div>
-            </div>
-        );
+        return <p>loading...</p>
     }
+    
 
     
 

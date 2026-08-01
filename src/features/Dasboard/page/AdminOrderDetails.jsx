@@ -497,6 +497,11 @@ const OrderDetails = () => {
                             Delivered
 
                         </option>
+                        <option>
+
+                            Cancelled
+
+                        </option>
 
                     </select>
 

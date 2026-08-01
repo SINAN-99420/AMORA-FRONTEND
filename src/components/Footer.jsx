@@ -52,7 +52,7 @@ function Footer() {
                             <li onClick={() => navigate("/shop")}>Categories</li>
                             <li onClick={() => navigate("/shop?offer=true")} >Offers</li>
                             <li onClick={() => navigate("/about")}>About Us</li>
-                            <li>Contact Us</li>
+                            <li onClick={() => navigate("/contact")}>Contact Us</li>
                         </ul>
                     </div>
 

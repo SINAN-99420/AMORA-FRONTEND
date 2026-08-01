@@ -24,6 +24,11 @@ export default function OrderDashboard() {
 
     const [loading, setLoading] = useState(true);
 
+    const [orderPage, setOrderPage] = useState(1);
+    const [lowStockPage, setLowStockPage] = useState(1);
+    const [wishlistPage, setWishlistPage] = useState(1);
+    const ITEMS_PER_PAGE = 2;
+
     const getDashboard = async () => {
 
         try {
@@ -150,24 +155,57 @@ export default function OrderDashboard() {
 
     useEffect(() => {
 
+        setOrderPage(1);
         getOrders();
 
     }, [
-
         search,
-
         sort,
-
         activeTab
-
     ]);
     const API_URL = import.meta.env.VITE_API_URL;
-    const handleExport = () => {
+    const handleExport = async () => {
 
-        window.open(
-            `${API_URL}/export-orders-csv/`,
-            "_blank"
-        );
+        try {
+
+            const response = await client.get(
+                "/export-orders-csv/",
+                {
+                    responseType: "blob"
+                }
+            );
+
+            const url = window.URL.createObjectURL(
+                new Blob([response.data])
+            );
+
+            const link = document.createElement("a");
+
+            link.href = url;
+
+            link.setAttribute(
+                "download",
+                "orders.csv"
+            );
+
+            document.body.appendChild(link);
+
+            link.click();
+
+            link.remove();
+
+            window.URL.revokeObjectURL(url);
+
+        } catch (error) {
+
+            console.error(
+                "Export failed:",
+                error
+            );
+
+            alert("Failed to export orders.");
+
+        }
 
     };
 
@@ -191,11 +229,42 @@ export default function OrderDashboard() {
 
     };
 
-    const changePage = (page) => {
+    const orderTotalPages = Math.ceil(
+        orders.length / ITEMS_PER_PAGE
+    );
 
-        console.log(page);
+    const orderStartIndex =
+        (orderPage - 1) * ITEMS_PER_PAGE;
 
-    };
+    const paginatedOrders = orders.slice(
+        orderStartIndex,
+        orderStartIndex + ITEMS_PER_PAGE
+    );
+
+
+    const lowStockTotalPages = Math.ceil(
+        lowStock.length / ITEMS_PER_PAGE
+    );
+
+    const lowStockStartIndex =
+        (lowStockPage - 1) * ITEMS_PER_PAGE;
+
+    const paginatedLowStock = lowStock.slice(
+        lowStockStartIndex,
+        lowStockStartIndex + ITEMS_PER_PAGE
+    );
+
+    const wishlistTotalPages = Math.ceil(
+        wishlistProducts.length / ITEMS_PER_PAGE
+    );
+
+    const wishlistStartIndex =
+        (wishlistPage - 1) * ITEMS_PER_PAGE;
+
+    const paginatedWishlist = wishlistProducts.slice(
+        wishlistStartIndex,
+        wishlistStartIndex + ITEMS_PER_PAGE
+    );
 
     return (
 
@@ -494,7 +563,7 @@ export default function OrderDashboard() {
 
                                             :
 
-                                            orders.map((order) => (
+                                            paginatedOrders.map((order) => (
 
                                                 <tr
                                                     key={order.id}
@@ -617,39 +686,67 @@ export default function OrderDashboard() {
                         <div className="pagination">
 
                             <span>
-
-                                Total Orders : {orders.length}
-
+                                Showing {
+                                    orders.length === 0
+                                        ? 0
+                                        : orderStartIndex + 1
+                                } - {
+                                    Math.min(
+                                        orderStartIndex + ITEMS_PER_PAGE,
+                                        orders.length
+                                    )
+                                } of {orders.length} Orders
                             </span>
 
                             <div>
 
                                 <button
+                                    disabled={orderPage === 1}
                                     onClick={() =>
-                                        changePage("prev")
+                                        setOrderPage((prev) =>
+                                            Math.max(prev - 1, 1)
+                                        )
                                     }
                                 >
-
                                     ‹
-
                                 </button>
 
+                                {Array.from(
+                                    { length: orderTotalPages },
+                                    (_, index) => index + 1
+                                ).map((page) => (
+
+                                    <button
+                                        key={page}
+                                        className={
+                                            orderPage === page
+                                                ? "page-active"
+                                                : ""
+                                        }
+                                        onClick={() =>
+                                            setOrderPage(page)
+                                        }
+                                    >
+                                        {page}
+                                    </button>
+
+                                ))}
+
                                 <button
-                                    className="page-active"
-                                >
-
-                                    1
-
-                                </button>
-
-                                <button
+                                    disabled={
+                                        orderPage === orderTotalPages ||
+                                        orderTotalPages === 0
+                                    }
                                     onClick={() =>
-                                        changePage("next")
+                                        setOrderPage((prev) =>
+                                            Math.min(
+                                                prev + 1,
+                                                orderTotalPages
+                                            )
+                                        )
                                     }
                                 >
-
                                     ›
-
                                 </button>
 
                             </div>
@@ -677,29 +774,17 @@ export default function OrderDashboard() {
 
                             <tr>
 
-                                <th>
+                                <th>PRODUCT</th>
 
-                                    PRODUCT
+                                <th>CATEGORY</th>
 
-                                </th>
+                                <th>COLOR</th>
 
-                                <th>
+                                <th>SIZE</th>
 
-                                    SIZE
+                                <th>STOCK</th>
 
-                                </th>
-
-                                <th>
-
-                                    STOCK
-
-                                </th>
-
-                                <th>
-
-                                    STATUS
-
-                                </th>
+                                <th>STATUS</th>
 
                             </tr>
 
@@ -718,7 +803,7 @@ export default function OrderDashboard() {
                                         <tr>
 
                                             <td
-                                                colSpan="4"
+                                                colSpan="6"
                                                 style={{
                                                     textAlign: "center",
                                                     padding: "35px"
@@ -735,50 +820,36 @@ export default function OrderDashboard() {
 
                                     :
 
-                                    lowStock.map((item) => (
+                                    paginatedLowStock.map((item) => (
 
-                                        <tr
-                                            key={item.id}
-                                        >
+                                        <tr key={item.id}>
 
                                             <td>
+                                                <strong>
+                                                    {item.product_name}
+                                                </strong>
+                                            </td>
 
-                                                {
+                                            <td>
+                                                {item.category || "—"}
+                                            </td>
 
-                                                    item.product_name
+                                            <td>
+                                                {item.color || "—"}
+                                            </td>
 
-                                                }
+                                            <td>
+                                                {item.size || "—"}
+                                            </td>
 
+                                            <td>
+                                                {item.stock}
                                             </td>
 
                                             <td>
 
-                                                {
-
-                                                    item.size
-
-                                                }
-
-                                            </td>
-
-                                            <td>
-
-                                                {
-
-                                                    item.stock
-
-                                                }
-
-                                            </td>
-
-                                            <td>
-
-                                                <span
-                                                    className="stock-low"
-                                                >
-
+                                                <span className="stock-low">
                                                     Low Stock
-
                                                 </span>
 
                                             </td>
@@ -792,6 +863,75 @@ export default function OrderDashboard() {
                         </tbody>
 
                     </table>
+                    <div className="pagination">
+
+                        <span>
+                            Showing {
+                                lowStock.length === 0
+                                    ? 0
+                                    : lowStockStartIndex + 1
+                            } - {
+                                Math.min(
+                                    lowStockStartIndex + ITEMS_PER_PAGE,
+                                    lowStock.length
+                                )
+                            } of {lowStock.length} Products
+                        </span>
+
+                        <div>
+
+                            <button
+                                disabled={lowStockPage === 1}
+                                onClick={() =>
+                                    setLowStockPage((prev) =>
+                                        Math.max(prev - 1, 1)
+                                    )
+                                }
+                            >
+                                ‹
+                            </button>
+
+                            {Array.from(
+                                { length: lowStockTotalPages },
+                                (_, index) => index + 1
+                            ).map((page) => (
+
+                                <button
+                                    key={page}
+                                    className={
+                                        lowStockPage === page
+                                            ? "page-active"
+                                            : ""
+                                    }
+                                    onClick={() =>
+                                        setLowStockPage(page)
+                                    }
+                                >
+                                    {page}
+                                </button>
+
+                            ))}
+
+                            <button
+                                disabled={
+                                    lowStockPage === lowStockTotalPages ||
+                                    lowStockTotalPages === 0
+                                }
+                                onClick={() =>
+                                    setLowStockPage((prev) =>
+                                        Math.min(
+                                            prev + 1,
+                                            lowStockTotalPages
+                                        )
+                                    )
+                                }
+                            >
+                                ›
+                            </button>
+
+                        </div>
+
+                    </div>
 
                 </section>
 
@@ -813,29 +953,15 @@ export default function OrderDashboard() {
 
                             <tr>
 
-                                <th>
+                                <th>IMAGE</th>
 
-                                    IMAGE
+                                <th>PRODUCT</th>
 
-                                </th>
+                                <th>COLOR</th>
 
-                                <th>
+                                <th>CATEGORY</th>
 
-                                    PRODUCT
-
-                                </th>
-
-                                <th>
-
-                                    CATEGORY
-
-                                </th>
-
-                                <th>
-
-                                    WISHLIST COUNT
-
-                                </th>
+                                <th>WISHLIST COUNT</th>
 
                             </tr>
 
@@ -854,7 +980,7 @@ export default function OrderDashboard() {
                                         <tr>
 
                                             <td
-                                                colSpan="4"
+                                                colSpan="5"
                                                 style={{
                                                     textAlign: "center",
                                                     padding: "35px"
@@ -871,29 +997,23 @@ export default function OrderDashboard() {
 
                                     :
 
-                                    wishlistProducts.map((item) => (
+                                    paginatedWishlist.map((item) => (
 
-                                        <tr
-                                            key={item.product_id}
-                                        >
+                                        <tr key={item.variant_id}>
+
                                             <td>
 
                                                 {
                                                     item.image
                                                         ?
-
                                                         <img
                                                             src={item.image}
                                                             alt={item.product_name}
                                                             className="wishlist-product-image"
                                                         />
-
                                                         :
-
                                                         <div className="wishlist-no-image">
-
                                                             No Image
-
                                                         </div>
                                                 }
 
@@ -902,25 +1022,27 @@ export default function OrderDashboard() {
                                             <td>
 
                                                 <strong>
-
                                                     {item.product_name}
-
                                                 </strong>
 
                                             </td>
 
                                             <td>
 
-                                                {item.category}
+                                                {item.color || "—"}
+
+                                            </td>
+
+                                            <td>
+
+                                                {item.category || "—"}
 
                                             </td>
 
                                             <td>
 
                                                 <span className="wishlist-count">
-
                                                     {item.wishlist_count}
-
                                                 </span>
 
                                             </td>
@@ -934,6 +1056,75 @@ export default function OrderDashboard() {
                         </tbody>
 
                     </table>
+                    <div className="pagination">
+
+                        <span>
+                            Showing {
+                                wishlistProducts.length === 0
+                                    ? 0
+                                    : wishlistStartIndex + 1
+                            } - {
+                                Math.min(
+                                    wishlistStartIndex + ITEMS_PER_PAGE,
+                                    wishlistProducts.length
+                                )
+                            } of {wishlistProducts.length} Products
+                        </span>
+
+                        <div>
+
+                            <button
+                                disabled={wishlistPage === 1}
+                                onClick={() =>
+                                    setWishlistPage((prev) =>
+                                        Math.max(prev - 1, 1)
+                                    )
+                                }
+                            >
+                                ‹
+                            </button>
+
+                            {Array.from(
+                                { length: wishlistTotalPages },
+                                (_, index) => index + 1
+                            ).map((page) => (
+
+                                <button
+                                    key={page}
+                                    className={
+                                        wishlistPage === page
+                                            ? "page-active"
+                                            : ""
+                                    }
+                                    onClick={() =>
+                                        setWishlistPage(page)
+                                    }
+                                >
+                                    {page}
+                                </button>
+
+                            ))}
+
+                            <button
+                                disabled={
+                                    wishlistPage === wishlistTotalPages ||
+                                    wishlistTotalPages === 0
+                                }
+                                onClick={() =>
+                                    setWishlistPage((prev) =>
+                                        Math.min(
+                                            prev + 1,
+                                            wishlistTotalPages
+                                        )
+                                    )
+                                }
+                            >
+                                ›
+                            </button>
+
+                        </div>
+
+                    </div>
 
                 </section>
 

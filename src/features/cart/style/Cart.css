@@ -271,6 +271,9 @@
     .checkout-page {
         padding: 10px;
     }
+    .cart-price del{
+        font-size: 13px;
+    }
 
     .order-summary,
     .Checkout_card {

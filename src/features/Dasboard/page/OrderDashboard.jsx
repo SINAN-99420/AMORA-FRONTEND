@@ -266,6 +266,53 @@ export default function OrderDashboard() {
         wishlistStartIndex + ITEMS_PER_PAGE
     );
 
+    const getPageNumbers = (currentPage, totalPages) => {
+
+        if (totalPages <= 5) {
+
+            return Array.from(
+                { length: totalPages },
+                (_, index) => index + 1
+            );
+
+        }
+
+        if (currentPage <= 3) {
+
+            return [
+                1,
+                2,
+                3,
+                "...",
+                totalPages
+            ];
+
+        }
+
+        if (currentPage >= totalPages - 2) {
+
+            return [
+                1,
+                "...",
+                totalPages - 2,
+                totalPages - 1,
+                totalPages
+            ];
+
+        }
+
+        return [
+            1,
+            "...",
+            currentPage - 1,
+            currentPage,
+            currentPage + 1,
+            "...",
+            totalPages
+        ];
+
+    };
+
     return (
 
         <div className="dashboard">
@@ -711,24 +758,37 @@ export default function OrderDashboard() {
                                     ‹
                                 </button>
 
-                                {Array.from(
-                                    { length: orderTotalPages },
-                                    (_, index) => index + 1
-                                ).map((page) => (
+                                {getPageNumbers(
+                                    orderPage,
+                                    orderTotalPages
+                                ).map((page, index) => (
 
-                                    <button
-                                        key={page}
-                                        className={
-                                            orderPage === page
-                                                ? "page-active"
-                                                : ""
-                                        }
-                                        onClick={() =>
-                                            setOrderPage(page)
-                                        }
-                                    >
-                                        {page}
-                                    </button>
+                                    page === "..." ? (
+
+                                        <span
+                                            className="pagination-dots"
+                                            key={`dots-${index}`}
+                                        >
+                                            ...
+                                        </span>
+
+                                    ) : (
+
+                                        <button
+                                            key={page}
+                                            className={
+                                                orderPage === page
+                                                    ? "page-active"
+                                                    : ""
+                                            }
+                                            onClick={() =>
+                                                setOrderPage(page)
+                                            }
+                                        >
+                                            {page}
+                                        </button>
+
+                                    )
 
                                 ))}
 
@@ -891,24 +951,37 @@ export default function OrderDashboard() {
                                 ‹
                             </button>
 
-                            {Array.from(
-                                { length: lowStockTotalPages },
-                                (_, index) => index + 1
-                            ).map((page) => (
+                            {getPageNumbers(
+                                lowStockPage,
+                                lowStockTotalPages
+                            ).map((page, index) => (
 
-                                <button
-                                    key={page}
-                                    className={
-                                        lowStockPage === page
-                                            ? "page-active"
-                                            : ""
-                                    }
-                                    onClick={() =>
-                                        setLowStockPage(page)
-                                    }
-                                >
-                                    {page}
-                                </button>
+                                page === "..." ? (
+
+                                    <span
+                                        className="pagination-dots"
+                                        key={`dots-${index}`}
+                                    >
+                                        ...
+                                    </span>
+
+                                ) : (
+
+                                    <button
+                                        key={page}
+                                        className={
+                                            lowStockPage === page
+                                                ? "page-active"
+                                                : ""
+                                        }
+                                        onClick={() =>
+                                            setLowStockPage(page)
+                                        }
+                                    >
+                                        {page}
+                                    </button>
+
+                                )
 
                             ))}
 
@@ -1084,24 +1157,37 @@ export default function OrderDashboard() {
                                 ‹
                             </button>
 
-                            {Array.from(
-                                { length: wishlistTotalPages },
-                                (_, index) => index + 1
-                            ).map((page) => (
+                            {getPageNumbers(
+                                wishlistPage,
+                                wishlistTotalPages
+                            ).map((page, index) => (
 
-                                <button
-                                    key={page}
-                                    className={
-                                        wishlistPage === page
-                                            ? "page-active"
-                                            : ""
-                                    }
-                                    onClick={() =>
-                                        setWishlistPage(page)
-                                    }
-                                >
-                                    {page}
-                                </button>
+                                page === "..." ? (
+
+                                    <span
+                                        className="pagination-dots"
+                                        key={`dots-${index}`}
+                                    >
+                                        ...
+                                    </span>
+
+                                ) : (
+
+                                    <button
+                                        key={page}
+                                        className={
+                                            wishlistPage === page
+                                                ? "page-active"
+                                                : ""
+                                        }
+                                        onClick={() =>
+                                            setWishlistPage(page)
+                                        }
+                                    >
+                                        {page}
+                                    </button>
+
+                                )
 
                             ))}
 

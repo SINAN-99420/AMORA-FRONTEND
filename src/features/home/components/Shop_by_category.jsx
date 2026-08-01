@@ -46,39 +46,75 @@ function Shop_by_category() {
     const checkCategoryScroll = () => {
 
         const container = categorySliderRef.current;
+
         if (!container) return;
 
         const hasScroll =
             container.scrollWidth > container.clientWidth + 5;
 
-        setCategoryArrow({
-            left:
-                hasScroll && container.scrollLeft > 5,
+        const newLeft =
+            hasScroll &&
+            container.scrollLeft > 5;
 
-            right:
-                hasScroll &&
-                container.scrollLeft + container.clientWidth <
-                container.scrollWidth - 5
+        const newRight =
+            hasScroll &&
+            container.scrollLeft + container.clientWidth <
+            container.scrollWidth - 5;
+
+
+        setCategoryArrow((previous) => {
+
+            if (
+                previous.left === newLeft &&
+                previous.right === newRight
+            ) {
+                return previous;
+            }
+
+            return {
+                left: newLeft,
+                right: newRight
+            };
+
         });
+
     };
 
     const checkSubCategoryScroll = () => {
 
         const container = subCategorySliderRef.current;
+
         if (!container) return;
 
         const hasScroll =
             container.scrollWidth > container.clientWidth + 5;
 
-        setSubCategoryArrow({
-            left:
-                hasScroll && container.scrollLeft > 5,
+        const newLeft =
+            hasScroll &&
+            container.scrollLeft > 5;
 
-            right:
-                hasScroll &&
-                container.scrollLeft + container.clientWidth <
-                container.scrollWidth - 5
+        const newRight =
+            hasScroll &&
+            container.scrollLeft + container.clientWidth <
+            container.scrollWidth - 5;
+
+
+        setSubCategoryArrow((previous) => {
+
+            if (
+                previous.left === newLeft &&
+                previous.right === newRight
+            ) {
+                return previous;
+            }
+
+            return {
+                left: newLeft,
+                right: newRight
+            };
+
         });
+
     };
 
 
@@ -191,9 +227,9 @@ function Shop_by_category() {
     if (isLoading) {
         return <p>loading...</p>
     }
-    
 
-    
+
+
 
     return (
         <section className="shop-category">

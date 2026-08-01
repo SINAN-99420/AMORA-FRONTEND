@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
+
 import { ImTruck } from "react-icons/im";
 import { MdOutlinePayments } from "react-icons/md";
 import { RiCustomerService2Line } from "react-icons/ri";
 import { MdOutlineWorkspacePremium } from "react-icons/md";
 
 function Our_speciality() {
+
     const specialityData = [
         {
             id: 1,
             icon: <ImTruck />,
-            title: "FREE SHIPPING",
-            desc: "On orders over NZD$"
+            title: "RELIABLE SHIPPING",
+            desc: "Safe & secure delivery"
         },
         {
             id: 2,
@@ -32,45 +34,85 @@ function Our_speciality() {
         }
     ];
 
+    const [isMobile, setIsMobile] = useState(
+        window.innerWidth <= 990
+    );
 
-    const [width, setWidth] = useState(false)
+
+    useEffect(() => {
+
+        const handleResize = () => {
+
+            setIsMobile(
+                window.innerWidth <= 990
+            );
+
+        };
+
+        window.addEventListener(
+            "resize",
+            handleResize
+        );
+
+        return () => {
+
+            window.removeEventListener(
+                "resize",
+                handleResize
+            );
+
+        };
+
+    }, []);
 
 
-    const displayData = width
+    const displayData = isMobile
         ? [...specialityData, ...specialityData]
         : specialityData;
 
-    useEffect(() => {
-        const handleResize = () => {
-            setWidth(window.innerWidth <= 990);
-            
-        };
-
-        handleResize();
-        window.addEventListener("resize", handleResize);
-
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
 
     return (
+
         <div className="speciality_wrapper">
 
-            <div className="speciality_track">
+            <div
+                className={`speciality_track ${isMobile
+                        ? "speciality_mobile_track"
+                        : ""
+                    }`}
+            >
 
                 {displayData.map((item, index) => (
-                <div className="speciality_boxes" key={index}>
-                    <div className="speciality_icon">{item.icon}</div>
-                    <h4>{item.title}</h4>
-                    <p>{item.desc}</p>
-                </div>
-            ))}
 
+                    <div
+                        className="speciality_boxes"
+                        key={`${item.id}-${index}`}
+                    >
 
+                        <div className="speciality_icon">
+
+                            {item.icon}
+
+                        </div>
+
+                        <h4>
+                            {item.title}
+                        </h4>
+
+                        <p>
+                            {item.desc}
+                        </p>
+
+                    </div>
+
+                ))}
 
             </div>
 
         </div>
-    )
+
+    );
+
 }
 
-export default Our_speciality
+export default Our_speciality;

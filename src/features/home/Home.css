@@ -259,51 +259,30 @@
 /* hero page end */
 
 /* Our speciality.jsx styles */
-
 .speciality_wrapper {
     width: 100%;
     padding: 10px 6%;
     overflow: hidden;
     margin-top: 20px;
-    /* background: #f9ecec; */
 }
 
+
+/* =========================
+   TRACK
+========================= */
 
 .speciality_track {
     display: flex;
     align-items: center;
-    gap: 20px;
-    width: max-content;
     justify-content: space-evenly;
+
     width: 100%;
 }
 
-/* Animation only below 990px */
 
-@media(max-width:990px) {
-
-    .speciality_track {
-
-        animation: scrollSpeciality 10s linear infinite;
-
-    }
-
-
-    @keyframes scrollSpeciality {
-
-        from {
-            transform: translateX(0);
-        }
-
-        to {
-            transform: translateX(-50%);
-        }
-
-    }
-
-}
-
-
+/* =========================
+   BOX
+========================= */
 
 .speciality_boxes {
 
@@ -312,31 +291,28 @@
 
     flex-shrink: 0;
 
-    /* background: #f8efef; */
-
     border-radius: 1px;
 
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    /* border-right: 1px solid rgba(140, 18, 56, .2); */
-
 }
 
-.peciality_boxes.last:last-child {
-    background-color: green;
-    border: 1px solid red;
-}
+
+/* =========================
+   ICON
+========================= */
 
 .speciality_icon {
-
     color: #8c1238;
     font-size: 28px;
-
 }
 
+
+/* =========================
+   TITLE
+========================= */
 
 .speciality_boxes h4 {
 
@@ -345,19 +321,123 @@
     color: #7b0d32;
 
     font-size: 14px;
-
 }
 
+
+/* =========================
+   DESCRIPTION
+========================= */
 
 .speciality_boxes p {
 
     margin: 0;
 
     font-size: 13px;
+
     color: #666;
+}
+
+
+/* =========================================
+   TABLET + MOBILE INFINITE SCROLL
+========================================= */
+
+@media(max-width: 990px) {
+
+    .speciality_wrapper {
+
+        width: 100%;
+
+        padding-left: 0;
+        padding-right: 0;
+
+        overflow: hidden;
+    }
+
+
+    .speciality_track {
+
+        width: max-content;
+
+        justify-content: flex-start;
+
+        gap: 0;
+
+        animation:
+            scrollSpeciality 17s linear infinite;
+
+        will-change: transform;
+    }
+
+
+    .speciality_boxes {
+
+        width: 220px;
+
+        flex: 0 0 220px;
+    }
+
+
+    @keyframes scrollSpeciality {
+
+        from {
+
+            transform: translateX(0);
+
+        }
+
+        to {
+
+            transform: translateX(-50%);
+
+        }
+
+    }
 
 }
 
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media(max-width: 480px) {
+
+    .speciality_track {
+
+        animation-duration: 14s;
+
+    }
+
+
+    .speciality_boxes {
+
+        width: 190px;
+
+        flex-basis: 190px;
+
+        height: 95px;
+    }
+
+
+    .speciality_icon {
+
+        font-size: 25px;
+    }
+
+
+    .speciality_boxes h4 {
+
+        font-size: 13px;
+    }
+
+
+    .speciality_boxes p {
+
+        font-size: 12px;
+    }
+
+}
 
 /*HERITAGE section  */
 .section-heritage{

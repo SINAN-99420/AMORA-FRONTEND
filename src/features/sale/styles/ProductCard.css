@@ -243,7 +243,19 @@
     display: flex;
     gap: 10px;
 }
+.pagination-arrow.disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    pointer-events: none;
+}
 
+.page-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 30px;
+    cursor: default;
+}
 .page-num {
     padding: 8px 14px;
     font-family: 'Plus Jakarta Sans', sans-serif;

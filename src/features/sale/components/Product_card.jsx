@@ -21,13 +21,13 @@ function Product_card({
     error
 }) {
 
-    
+
 
     const navigate = useNavigate();
 
     const [currentPage, setCurrentPage] = useState(1);
 
-    const itemsPerPage = 8;
+    const itemsPerPage = 14;
 
     const indexOfLastProduct =
         currentPage * itemsPerPage;
@@ -45,6 +45,53 @@ function Product_card({
         Math.ceil(
             products.length / itemsPerPage
         );
+
+    const getPageNumbers = () => {
+
+        if (totalPages <= 5) {
+
+            return Array.from(
+                { length: totalPages },
+                (_, index) => index + 1
+            );
+
+        }
+
+        if (currentPage <= 3) {
+
+            return [
+                1,
+                2,
+                3,
+                "...",
+                totalPages
+            ];
+
+        }
+
+        if (currentPage >= totalPages - 2) {
+
+            return [
+                1,
+                "...",
+                totalPages - 2,
+                totalPages - 1,
+                totalPages
+            ];
+
+        }
+
+        return [
+            1,
+            "...",
+            currentPage - 1,
+            currentPage,
+            currentPage + 1,
+            "...",
+            totalPages
+        ];
+
+    };
 
     const {
         data: wishdata = [],
@@ -128,9 +175,9 @@ function Product_card({
 
     };
 
-     useEffect(() => {
-            window.scrollTo(0, 0);
-          }, [currentPage]);
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [currentPage]);
 
     if (isLoading) {
 
@@ -160,291 +207,329 @@ function Product_card({
             </h2>
         );
 
-    }return (
+    } return (
 
-    <div className="catalog-container">
+        <div className="catalog-container">
 
-        <section
-            className={`products ${
-                products.length <= 3
+            <section
+                className={`products ${products.length <= 3
                     ? "shop-few-products"
                     : "shop-many-products"
-            }`}
-        >
+                    }`}
+            >
 
-            {
+                {
 
-                currentProducts.length > 0 ? (
+                    currentProducts.length > 0 ? (
 
-                    currentProducts.map(
+                        currentProducts.map(
 
-                        (product) => {
+                            (product) => {
 
-                            const firstVariant =
-                                product.variants?.[0];
+                                const firstVariant =
+                                    product.variants?.[0];
 
-                            const firstVariantSize =
-                                firstVariant?.sizes?.[0];
+                                const firstVariantSize =
+                                    firstVariant?.sizes?.[0];
 
-                            const wishlistItem =
-                                wishdata.find(
-                                    item =>
-                                        item.variant_size ===
-                                        firstVariantSize?.id
-                                );
+                                const wishlistItem =
+                                    wishdata.find(
+                                        item =>
+                                            item.variant_size ===
+                                            firstVariantSize?.id
+                                    );
 
-                            const isWishlisted =
-                                !!wishlistItem;
+                                const isWishlisted =
+                                    !!wishlistItem;
 
-                            const primaryImageRelative =
-                                firstVariant?.images?.find(
-                                    img =>
-                                        img.is_primary
-                                )?.image;
+                                const primaryImageRelative =
+                                    firstVariant?.images?.find(
+                                        img =>
+                                            img.is_primary
+                                    )?.image;
 
-                            const primaryImage =
-                                primaryImageRelative
-                                    ? getImageUrl(
-                                        primaryImageRelative
-                                    )
-                                    : "https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=600";
-
-                            const startingPrice =
-                                product.starting_price;
-
-                            const discountedPrice =
-                                product.discounted_price;
-
-                            const hasOffer =
-                                product.has_offer;
-
-                            const discountPercentage =
-                                product.discount_percentage;
-
-                            return (
-
-                                <div
-                                    className="product_card"
-                                    key={product.id}
-                                    onClick={() =>
-                                        navigate(
-                                            `/single/${product.id}`
+                                const primaryImage =
+                                    primaryImageRelative
+                                        ? getImageUrl(
+                                            primaryImageRelative
                                         )
-                                    }
-                                >
+                                        : "https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=600";
 
-                                    <div className="product_img">
+                                const startingPrice =
+                                    product.starting_price;
 
-                                        <button
-                                            className={`favorite_btn ${
-                                                isWishlisted
+                                const discountedPrice =
+                                    product.discounted_price;
+
+                                const hasOffer =
+                                    product.has_offer;
+
+                                const discountPercentage =
+                                    product.discount_percentage;
+
+                                return (
+
+                                    <div
+                                        className="product_card"
+                                        key={product.id}
+                                        onClick={() =>
+                                            navigate(
+                                                `/single/${product.id}`
+                                            )
+                                        }
+                                    >
+
+                                        <div className="product_img">
+
+                                            <button
+                                                className={`favorite_btn ${isWishlisted
                                                     ? "active"
                                                     : ""
-                                            }`}
-                                            onClick={(e) =>
-                                                addTowislist(
-                                                    product,
-                                                    e
-                                                )
-                                            }
-                                            aria-label="Wishlist"
-                                        >
-
-                                            <FaHeart />
-
-                                        </button>
-
-                                        {
-
-                                            hasOffer && (
-
-                                                <div className="offer-badge">
-
-                                                    {discountPercentage}% OFF
-
-                                                </div>
-
-                                            )
-
-                                        }
-
-                                        <img
-                                            src={primaryImage}
-                                            alt={product.name}
-                                        />
-
-                                        <button className="quick-add-bar">
-
-                                            VIEW PRODUCT
-
-                                        </button>
-
-                                    </div>
-
-                                    <div className="product_info">
-
-                                        <div
-                                            style={{
-                                                display: "flex",
-                                                justifyContent: "space-between",
-                                                alignItems: "center"
-                                            }}
-                                        >
-
-                                            <span className="product-category">
-
-                                                {
-                                                    product.category?.name ||
-                                                    "Premium Wear"
+                                                    }`}
+                                                onClick={(e) =>
+                                                    addTowislist(
+                                                        product,
+                                                        e
+                                                    )
                                                 }
+                                                aria-label="Wishlist"
+                                            >
 
-                                            </span>
+                                                <FaHeart />
 
-                                        </div>
-
-                                        <h3 className="product-title">
-
-                                            {product.name}
-
-                                        </h3>
-
-                                        <div className="product-footer">
+                                            </button>
 
                                             {
 
-                                                hasOffer ? (
+                                                hasOffer && (
 
-                                                    <div className="price-box">
+                                                    <div className="offer-badge">
 
-                                                        <span className="old-price">
-
-                                                            NZD $
-
-                                                            {
-                                                                Number(
-                                                                    startingPrice
-                                                                ).toFixed(2)
-                                                            }
-
-                                                        </span>
-
-                                                        <span className="new-price">
-
-                                                            NZD $
-
-                                                            {
-                                                                Number(
-                                                                    discountedPrice
-                                                                ).toFixed(2)
-                                                            }
-
-                                                        </span>
+                                                        {discountPercentage}% OFF
 
                                                     </div>
-
-                                                ) : (
-
-                                                    <span className="price">
-
-                                                        {
-
-                                                            startingPrice
-
-                                                                ? `NZD $${Number(
-                                                                    startingPrice
-                                                                ).toFixed(2)}`
-
-                                                                : "Price unavailable"
-
-                                                        }
-
-                                                    </span>
 
                                                 )
 
                                             }
 
+                                            <img
+                                                src={primaryImage}
+                                                alt={product.name}
+                                            />
+
+                                            <button className="quick-add-bar">
+
+                                                VIEW PRODUCT
+
+                                            </button>
+
+                                        </div>
+
+                                        <div className="product_info">
+
+                                            <div
+                                                style={{
+                                                    display: "flex",
+                                                    justifyContent: "space-between",
+                                                    alignItems: "center"
+                                                }}
+                                            >
+
+                                                <span className="product-category">
+
+                                                    {
+                                                        product.category?.name ||
+                                                        "Premium Wear"
+                                                    }
+
+                                                </span>
+
+                                            </div>
+
+                                            <h3 className="product-title">
+
+                                                {product.name}
+
+                                            </h3>
+
+                                            <div className="product-footer">
+
+                                                {
+
+                                                    hasOffer ? (
+
+                                                        <div className="price-box">
+
+                                                            <span className="old-price">
+
+                                                                NZD $
+
+                                                                {
+                                                                    Number(
+                                                                        startingPrice
+                                                                    ).toFixed(2)
+                                                                }
+
+                                                            </span>
+
+                                                            <span className="new-price">
+
+                                                                NZD $
+
+                                                                {
+                                                                    Number(
+                                                                        discountedPrice
+                                                                    ).toFixed(2)
+                                                                }
+
+                                                            </span>
+
+                                                        </div>
+
+                                                    ) : (
+
+                                                        <span className="price">
+
+                                                            {
+
+                                                                startingPrice
+
+                                                                    ? `NZD $${Number(
+                                                                        startingPrice
+                                                                    ).toFixed(2)}`
+
+                                                                    : "Price unavailable"
+
+                                                            }
+
+                                                        </span>
+
+                                                    )
+
+                                                }
+
+                                            </div>
+
                                         </div>
 
                                     </div>
 
-                                </div>
+                                );
 
-                            );
+                            }
 
-                        }
+                        )
+
+                    ) : (
+
+                        <div className="no-products">
+
+                            Products Loading....
+
+                        </div>
 
                     )
 
-                ) : (
+                }
 
-                    <div className="no-products">
-
-                        Products Loading....
-
-                    </div>
-
-                )
-
-            }
-
-        </section>
-                    {
-
+            </section>
+            {
                 totalPages > 1 && (
 
                     <div className="pagination-wrapper">
 
                         <div className="numbers">
 
+                            {/* PREVIOUS */}
+
+                            <div
+                                className={`page-num pagination-arrow ${currentPage === 1 ? "disabled" : ""
+                                    }`}
+                                onClick={() => {
+
+                                    if (currentPage > 1) {
+
+                                        setCurrentPage(
+                                            currentPage - 1
+                                        );
+
+                                    }
+
+                                }}
+                            >
+                                ‹
+                            </div>
+
+
+                            {/* PAGE NUMBERS */}
+
                             {
+                                getPageNumbers().map(
+                                    (number, index) => (
 
-                                Array.from(
+                                        number === "..." ? (
 
-                                    {
-                                        length: totalPages
-                                    },
+                                            <div
+                                                key={`dots-${index}`}
+                                                className="page-dots"
+                                            >
+                                                ...
+                                            </div>
 
-                                    (_, i) => i + 1
+                                        ) : (
 
-                                ).map(
+                                            <div
+                                                key={number}
 
-                                    (number) => (
+                                                onClick={() =>
+                                                    setCurrentPage(number)
+                                                }
 
-                                        <div
+                                                className={`page-num ${currentPage === number
+                                                        ? "active"
+                                                        : ""
+                                                    }`}
+                                            >
+                                                {number}
+                                            </div>
 
-                                            key={number}
-
-                                            onClick={() =>
-                                                setCurrentPage(
-                                                    number
-                                                )
-                                            }
-
-                                            className={`page-num ${
-                                                currentPage === number
-                                                    ? "active"
-                                                    : ""
-                                            }`}
-
-                                        >
-
-                                            {number}
-
-                                        </div>
+                                        )
 
                                     )
-
                                 )
-
                             }
+
+
+                            {/* NEXT */}
+
+                            <div
+                                className={`page-num pagination-arrow ${currentPage === totalPages
+                                        ? "disabled"
+                                        : ""
+                                    }`}
+                                onClick={() => {
+
+                                    if (
+                                        currentPage < totalPages
+                                    ) {
+
+                                        setCurrentPage(
+                                            currentPage + 1
+                                        );
+
+                                    }
+
+                                }}
+                            >
+                                ›
+                            </div>
 
                         </div>
 
                     </div>
 
                 )
-
             }
 
         </div>

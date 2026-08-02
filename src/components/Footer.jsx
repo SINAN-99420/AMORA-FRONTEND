@@ -4,7 +4,8 @@ import "./../Footer.css";
 import amora from './../assets/footer-logo.png'
 import visa from './../assets/visa-payment.png'
 import master from './../assets/master-payment.png'
-import paypal from './../assets/paypal-payment.png'
+import amc from './../assets/american-exp-payment.png'
+import apple from './../assets/apple-payment.png'
 import { useNavigate } from 'react-router-dom';
 import { FaFacebookF, FaInstagram, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, } from "react-icons/fa";
 function Footer() {
@@ -95,7 +96,8 @@ function Footer() {
                         <div className="payment-icons">
                             <img src={visa} alt="payments" />
                             <img src={master} alt="" />
-                            <img src={paypal} alt="" />
+                            <img src={amc} alt="" />
+                            <img src={apple} alt="" />
                         </div>
                     </div>
 
@@ -104,7 +106,7 @@ function Footer() {
             </footer>
 
             <div className="copyright">
-                © 2024 Amora by Anitta. All Rights Reserved.
+                © 2026 Amora by Anitta. All Rights Reserved.
             </div>
 
         </div>

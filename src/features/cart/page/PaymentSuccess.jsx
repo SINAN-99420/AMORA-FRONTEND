@@ -343,7 +343,7 @@ const PaymentSuccess = () => {
                             <button
                                 className="retry-payment-btn"
                                 onClick={() =>
-                                    navigate("/cart")
+                                    navigate("/checkout")
                                 }
                             >
 
